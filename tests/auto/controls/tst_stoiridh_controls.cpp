@@ -16,15 +16,6 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-import qbs 1.0
+#include <QtQuickTest>
 
-Project {
-    name: "Autotests"
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  References                                                                                //
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    references: [
-        "controls"
-    ]
-}
+QUICK_TEST_OPENGL_MAIN(Test.Stoiridh.Controls)

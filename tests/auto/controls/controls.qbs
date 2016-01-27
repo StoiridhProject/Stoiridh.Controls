@@ -18,13 +18,14 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 import qbs 1.0
 
-Project {
-    name: "Autotests"
+StoiridhQuickQMLTest {
+    name: "Stoiridh.Controls Autotests"
+    testName: "stoiridh_controls"
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  References                                                                                //
+    //  Sources                                                                                   //
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    references: [
-        "controls"
+    files: [
+        "tst_stoiridh_controls.cpp"
     ]
 }
