@@ -1,0 +1,13 @@
+/*!
+  \contentspage{index.html}{Stoiridh.Controls}
+  \page index.html
+
+  \title Stoiridh.Controls
+
+  The Stoiridh.Controls module provides a set of UI controls for creating user interfaces in your
+  Qt Quick application.
+
+  \section1 Controls
+  Controls items used to interact with the user.
+  \annotatedlist stoiridh_controls
+*/

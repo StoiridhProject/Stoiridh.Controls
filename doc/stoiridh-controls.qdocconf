@@ -1,0 +1,44 @@
+include($QT_INSTALL_DOCS/global/fileextensions.qdocconf)
+include($QT_INSTALL_DOCS/global/macros.qdocconf)
+include($STOIRIDH_INSTALL_DOCS/global/stoiridh-html-templates-offline.qdocconf)
+
+project     = Stoiridh.Controls
+description = Stoiridh.Controls Reference Documentation
+version     = $PROJECT_VERSION
+
+outputdir      = $OUTDIR/stoiridhcontrols
+outputencoding = UTF-8
+sourceencoding = UTF-8
+
+headerdirs += \
+    $PROJECT_DIR/src
+sourcedirs += \
+    $SOURCE_DIR \
+    $PROJECT_DIR/src
+
+indexes += \
+    $QDOC_INDEX_DIR/qtcore/qtcore.index \
+    $QDOC_INDEX_DIR/qtgui/qtgui.index \
+    $QDOC_INDEX_DIR/qtqml/qtqml.index \
+    $QDOC_INDEX_DIR/qtquick/qtquick.index \
+    $QDOC_INDEX_DIR/qtquickcontrols/qtquickcontrols.index \
+
+qhp.projects = StoiridhControls
+
+qhp.StoiridhControls.file          = stoiridhcontrols.qhp
+qhp.StoiridhControls.namespace     = uk.co.stoiridhproject.stoiridhcontrols.$PROJECT_VERSION_TAG
+qhp.StoiridhControls.virtualFolder = stoiridhcontrols
+qhp.StoiridhControls.indexTitle    = Stoiridh.Controls
+qhp.StoiridhControls.indexRoot     =
+
+qhp.StoiridhControls.subprojects = stoiridh_controls_types
+
+qhp.StoiridhControls.subprojects.stoiridh_controls_types.title      = Controls QML Types
+qhp.StoiridhControls.subprojects.stoiridh_controls_types.indexTitle = Stoiridh.Controls QML Types
+qhp.StoiridhControls.subprojects.stoiridh_controls_types.selectors  = group:stoiridh_controls
+qhp.StoiridhControls.subprojects.stoiridh_controls_types.sortPages  = true
+
+tagfile = stoiridhcontrols.tags
+
+navigation.landingpage  = "Stoiridh.Controls"
+navigation.qmltypespage = "Stoiridh.Controls QML Types"
