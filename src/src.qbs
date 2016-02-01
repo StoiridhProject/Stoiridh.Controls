@@ -18,17 +18,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 import qbs 1.0
 
-StoiridhQuickPlugin {
+Project {
     name: "Stoiridh.Controls"
-    targetName: "stoiridh-controls"
-    uri: "Stoiridh.Controls"
-    version: "1.0"
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  Sources                                                                                   //
+    //  References                                                                                //
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    files: [
-        "plugin.cpp",
-        "plugin.hpp",
+    references: [
     ]
 }

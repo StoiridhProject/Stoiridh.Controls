@@ -17,8 +17,9 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 import qbs 1.0
+import Stoiridh.QtQuick
 
-StoiridhQuickQMLTest {
+QtQuick.QmlAutotest {
     name: "Stoiridh.Controls Autotests"
     testName: "stoiridh_controls"
 
