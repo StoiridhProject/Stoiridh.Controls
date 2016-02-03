@@ -20,7 +20,7 @@
 
 #include <qqml.h>
 
-void StoiridhControlsPlugin::registerTypes(const char *uri)
+void StoiridhControlsPrivatePlugin::registerTypes(const char *uri)
 {
-    // @uri Stoiridh.Controls
+    // @uri Stoiridh.Controls.Private
 }

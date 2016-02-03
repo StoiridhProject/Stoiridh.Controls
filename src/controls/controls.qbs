@@ -16,18 +16,25 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPLUGIN_HPP
+import qbs 1.0
+import Stoiridh.QtQuick
 
-#include <QQmlExtensionPlugin>
+QtQuick.Plugin {
+    name: "Stoiridh.Controls.Private"
+    targetName: "StoiridhControlsPrivatePlugin"
+    uri: "Stoiridh.Controls.Private"
+    version: "1.0"
 
-class StoiridhControlsPlugin final : public QQmlExtensionPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Dependencies                                                                              //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    Depends { name: 'Stoiridh.Controls.Templates' }
 
-public:
-    void registerTypes(const char *uri) override;
-};
-
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPLUGIN_HPP
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Sources                                                                                   //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    files: [
+        "plugin.cpp",
+        "plugin.hpp"
+    ]
+}
