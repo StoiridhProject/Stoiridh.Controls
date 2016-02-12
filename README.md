@@ -1,13 +1,13 @@
 # Stòiridh.Controls
 
-Stòiridh.Controls is a QML module based on QtQuick.Controls so as to provide a set of controls for your QtQuick application.
+Stòiridh.Controls is a QML module that provides a set of UI controls for your QML application.
 
 # Requirements
 
 |           Name           | Minimum Version Required |
 |:------------------------:|:------------------------:|
 | [Qt](https://www.qt.io)  |          5.5.1           |
-| [Qbs](https://www.qt.io) |          1.4.0           |
+| [Qbs](https://www.qt.io) |          1.4.4           |
 
 # Licence
 
