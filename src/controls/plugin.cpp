@@ -18,9 +18,18 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "plugin.hpp"
 
-#include <qqml.h>
+#include <StoiridhControlsTemplates/control.hpp>
+#include <StoiridhControlsTemplates/padding.hpp>
+
+#include <QtQml/qqml.h>
+
+namespace SCT = StoiridhControlsTemplates;
 
 void StoiridhControlsPrivatePlugin::registerTypes(const char *uri)
 {
     // @uri Stoiridh.Controls.Private
+
+    // base
+    qmlRegisterType<SCT::Control>();
+    qmlRegisterType<SCT::Padding>();
 }

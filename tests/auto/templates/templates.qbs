@@ -19,14 +19,13 @@
 import qbs 1.0
 
 Project {
-    name: "Autotests"
-    condition: project.enableAutotests !== undefined ? project.enableAutotests : true
+    name: "Stoiridh.Controls.Templates Autotests"
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  References                                                                                //
     ////////////////////////////////////////////////////////////////////////////////////////////////
     references: [
-        "controls",
-        "templates"
+        "control",
+        "padding"
     ]
 }

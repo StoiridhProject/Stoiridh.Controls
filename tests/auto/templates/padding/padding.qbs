@@ -17,16 +17,21 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 import qbs 1.0
+import Stoiridh.QtQuick
 
-Project {
-    name: "Autotests"
-    condition: project.enableAutotests !== undefined ? project.enableAutotests : true
+QtQuick.CppAutotest {
+    name: "[Stoiridh.Controls.Templates] Padding Autotest"
+    testName: "sct_padding"
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  References                                                                                //
+    //  Dependencies                                                                              //
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    references: [
-        "controls",
-        "templates"
+    Depends { name: 'Stoiridh.Controls.Templates' }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Sources                                                                                   //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    files: [
+        "tst_sct_padding.cpp"
     ]
 }
