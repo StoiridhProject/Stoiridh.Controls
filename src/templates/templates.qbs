@@ -30,7 +30,11 @@ QtQuick.DynamicLibrary {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  Configuration                                                                             //
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    cpp.defines: ['STOIRIDH_CONTROLS_TEMPLATES_LIB'].concat(base)
+    cpp.defines: [
+        'STOIRIDH_CONTROLS_TEMPLATES_LIB',
+        'QT_NO_CAST_FROM_ASCII',
+        'QT_NO_CAST_TO_ASCII'
+    ].concat(base)
     cpp.includePaths: [FileInfo.joinPaths(product.buildDirectory, 'include')].concat(base)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +52,11 @@ QtQuick.DynamicLibrary {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     Export {
         Depends { name: 'cpp' }
+
+        cpp.defines: [
+            'QT_NO_CAST_FROM_ASCII',
+            'QT_NO_CAST_TO_ASCII'
+        ]
 
         cpp.includePaths: [].concat(FileInfo.joinPaths(product.buildDirectory, 'include'))
     }
