@@ -11,7 +11,7 @@ Stòiridh.Controls is a QML module that provides a set of UI controls for your Q
 
 # Licence
 
-The project is licenced under the GPL version 3. See [LICENCE.GPL3](https://github.com/viprip/Stoiridh-Qbs-Configuration/blob/master/LICENCE.GPL3) located at the root of the project for more information.
+The project is licenced under the GPL version 3. See [LICENCE.GPL3](https://github.com/viprip/Stoiridh.Controls/blob/master/LICENCE.GPL3) located at the root of the project for more information.
 
 > This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
