@@ -76,7 +76,7 @@ qreal Control::paddings() const
 
 void Control::setPaddings(qreal paddings)
 {
-    if (m_paddings != paddings)
+    if (!qFuzzyCompare(m_paddings, paddings))
     {
         m_paddings = paddings;
 
