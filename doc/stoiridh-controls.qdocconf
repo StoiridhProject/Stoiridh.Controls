@@ -52,7 +52,6 @@ qhp.StoiridhControls.subprojects.qmltypes.sortPages  = true
 ####################################################################################################
 qhp.StoiridhControls.subprojects.classes.title      = C++ Classes
 qhp.StoiridhControls.subprojects.classes.indexTitle = Stoiridh.Controls.Templates C++ Classes
-#qhp.StoiridhControls.subprojects.classes.selectors  = module:StoiridhControlsTemplates
 qhp.StoiridhControls.subprojects.classes.selectors  = class fake:headerfile
 qhp.StoiridhControls.subprojects.classes.sortPages  = true
 
