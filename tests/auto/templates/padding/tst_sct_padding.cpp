@@ -19,7 +19,7 @@
 #include <QtTest>
 #include <QtCore/QVariantList>
 
-#include <StoiridhControlsTemplates/padding.hpp>
+#include <StoiridhControlsTemplates/Padding>
 
 namespace SCT = StoiridhControlsTemplates;
 

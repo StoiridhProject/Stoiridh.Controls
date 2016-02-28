@@ -18,6 +18,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "control.hpp"
 
+#include "api/private/control_p.hpp"
+
 //--------------------------------------------------------------------------------------------------
 namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
@@ -26,7 +28,8 @@ namespace StoiridhControlsTemplates {
 /*! \class StoiridhControlsTemplates::Control
     \inherits QQuickItem
     \inmodule StoiridhControlsTemplates
-    \ingroup stoiridh_controls_templates
+    \ingroup controls
+    \ingroup templates
     \since StoiridhControlsTemplates 1.0
 
     \brief The Control class provides a base class for UI controls.
@@ -37,8 +40,25 @@ namespace StoiridhControlsTemplates {
     Constructs a Control with an optional \a parent as parent.
 */
 Control::Control(QQuickItem *parent)
-    : QQuickItem{parent}
-    , m_padding{new Padding{this}}
+    : Control{*(new ControlPrivate{}), parent}
+{
+
+}
+
+/*!
+    \internal
+*/
+Control::Control(ControlPrivate &dd, QQuickItem *parent)
+    : QQuickItem{dd, parent}
+{
+    Q_D(Control);
+    d->init(this);
+}
+
+/*!
+    Destroys this control.
+*/
+Control::~Control()
 {
 
 }
@@ -50,7 +70,8 @@ Control::Control(QQuickItem *parent)
 */
 qreal Control::availableWidth() const
 {
-    return qMax(0.0, width() - m_padding->left() - m_padding->right());
+    Q_D(const Control);
+    return qMax(0.0, width() - d->padding->left() - d->padding->right());
 }
 
 /*! \property StoiridhControlsTemplates::Control::availableHeight
@@ -60,7 +81,8 @@ qreal Control::availableWidth() const
 */
 qreal Control::availableHeight() const
 {
-    return qMax(0.0, height() - m_padding->top() - m_padding->bottom());
+    Q_D(const Control);
+    return qMax(0.0, height() - d->padding->top() - d->padding->bottom());
 }
 
 /*! \property StoiridhControlsTemplates::Control::paddings
@@ -71,22 +93,25 @@ qreal Control::availableHeight() const
 */
 qreal Control::paddings() const
 {
-    return m_paddings;
+    Q_D(const Control);
+    return d->paddings;
 }
 
 void Control::setPaddings(qreal paddings)
 {
-    if (!qFuzzyCompare(m_paddings, paddings))
+    Q_D(Control);
+
+    if (!qFuzzyCompare(d->paddings, paddings))
     {
-        m_paddings = paddings;
+        d->paddings = paddings;
 
         // adjust the padding of the grouped property
-        m_padding->setPaddings(paddings);
+        d->padding->setPaddings(paddings);
 
         if (isComponentComplete())
-            calculateContentGeometry();
+            d->calculateContentGeometry();
 
-        emit paddingsChanged(paddings);
+        emit paddingsChanged();
     }
 }
 
@@ -104,7 +129,8 @@ void Control::resetPaddings()
 */
 Padding *Control::padding() const
 {
-    return m_padding;
+    Q_D(const Control);
+    return d->padding;
 }
 
 /*! \property StoiridhControlsTemplates::Control::background
@@ -113,25 +139,28 @@ Padding *Control::padding() const
 */
 QQuickItem *Control::background() const
 {
-    return m_background;
+    Q_D(const Control);
+    return d->background;
 }
 
 void Control::setBackground(QQuickItem *background)
 {
-    if (m_background != background)
-    {
-        m_background = background;
+    Q_D(Control);
 
-        if (m_background)
+    if (d->background != background)
+    {
+        d->background = background;
+
+        if (d->background)
         {
-            m_background->setParentItem(this);
-            m_background->setZ(-1.0);
+            d->background->setParentItem(this);
+            d->background->setZ(-1.0);
 
             if (isComponentComplete())
-                calculateBackgroundGeometry();
+                d->calculateBackgroundGeometry();
         }
 
-        emit backgroundChanged(background);
+        emit backgroundChanged();
     }
 }
 
@@ -141,24 +170,27 @@ void Control::setBackground(QQuickItem *background)
 */
 QQuickItem *Control::content() const
 {
-    return m_content;
+    Q_D(const Control);
+    return d->content;
 }
 
 void Control::setContent(QQuickItem *content)
 {
-    if (m_content != content)
-    {
-        m_content = content;
+    Q_D(Control);
 
-        if (m_content)
+    if (d->content != content)
+    {
+        d->content = content;
+
+        if (d->content)
         {
-            m_content->setParentItem(this);
+            d->content->setParentItem(this);
 
             if (isComponentComplete())
-                calculateContentGeometry();
+                d->calculateContentGeometry();
         }
 
-        emit contentChanged(content);
+        emit contentChanged();
     }
 }
 
@@ -168,79 +200,108 @@ void Control::setContent(QQuickItem *content)
 void Control::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     QQuickItem::geometryChanged(newGeometry, oldGeometry);
-    calculateBackgroundGeometry();
-    calculateContentGeometry();
+
+    Q_D(Control);
+    d->calculateBackgroundGeometry();
+    d->calculateContentGeometry();
 }
 
-void Control::calculateBackgroundGeometry()
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////   PRIVATE API    /////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*! \class StoiridhControlsTemplates::ControlPrivate
+    \internal
+*/
+
+ControlPrivate::ControlPrivate()
 {
-    if (!m_background)
+
+}
+
+ControlPrivate::~ControlPrivate()
+{
+
+}
+
+void ControlPrivate::init(QQuickItem *parent)
+{
+    padding = new Padding{parent};
+}
+
+void ControlPrivate::calculateBackgroundGeometry()
+{
+    Q_Q(Control);
+
+    if (!background)
         return;
 
-    m_background->setX(0.0);
-    m_background->setY(0.0);
+    background->setX(0.0);
+    background->setY(0.0);
 
-    if (widthValid())
+    if (q->widthValid())
     {
-        m_background->setWidth(width());
+        background->setWidth(q->width());
     }
     else
     {
-        const auto width = qMax(m_background->implicitWidth(), implicitWidth());
-        m_background->setWidth(width);
-        setImplicitWidth(width);
+        const auto width = qMax(background->implicitWidth(), q->implicitWidth());
+        background->setWidth(width);
+        q->setImplicitWidth(width);
     }
 
-    if (heightValid())
+    if (q->heightValid())
     {
-        m_background->setHeight(height());
+        background->setHeight(q->height());
     }
     else
     {
-        const auto height = qMax(m_background->implicitHeight(), this->implicitHeight());
-        m_background->setHeight(height);
-        setImplicitHeight(height);
+        const auto height = qMax(background->implicitHeight(), q->implicitHeight());
+        background->setHeight(height);
+        q->setImplicitHeight(height);
     }
 }
 
-void Control::calculateContentGeometry()
+void ControlPrivate::calculateContentGeometry()
 {
-    if (!m_content)
+    Q_Q(Control);
+
+    if (!content)
         return;
 
-    m_content->setX(m_padding->left());
-    m_content->setY(m_padding->top());
+    content->setX(padding->left());
+    content->setY(padding->top());
 
-    const auto ciw = m_content->implicitWidth();
+    const auto ciw = content->implicitWidth();
 
-    if (widthValid() || qFuzzyIsNull(ciw))
+    if (q->widthValid() || qFuzzyIsNull(ciw))
     {
-        m_content->setWidth((ciw > 0.0 && ciw < availableWidth()) ? ciw : availableWidth());
+        content->setWidth((ciw > 0.0 && ciw < q->availableWidth()) ? ciw : q->availableWidth());
     }
     else
     {
         // adjust the width of the control so as to keep the implicit width of the content item.
-        if (ciw >= availableWidth())
+        if (ciw >= q->availableWidth())
         {
-            const auto width = ciw + m_padding->left() + m_padding->right();
-            setWidth(width);
+            const auto width = ciw + padding->left() + padding->right();
+            q->setWidth(width);
         }
     }
 
-    // identical as width but for height.
-    const auto cih = m_content->implicitHeight();
+    // identical to width but for height.
+    const auto cih = content->implicitHeight();
 
-    if (heightValid() || qFuzzyIsNull(cih))
+    if (q->heightValid() || qFuzzyIsNull(cih))
     {
-        m_content->setHeight((cih > 0.0 && cih < availableHeight()) ? cih : availableHeight());
+        content->setHeight((cih > 0.0 && cih < q->availableHeight()) ? cih : q->availableHeight());
     }
     else
     {
         // adjust the height of the control so as to keep the implicit height of the content item.
-        if (cih >= availableHeight())
+        if (cih >= q->availableHeight())
         {
-            const auto height = cih + m_padding->top() + m_padding->bottom();
-            setHeight(height);
+            const auto height = cih + padding->top() + padding->bottom();
+            q->setHeight(height);
         }
     }
 }

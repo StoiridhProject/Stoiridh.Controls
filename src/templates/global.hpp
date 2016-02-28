@@ -16,8 +16,8 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_TEMPLATES_GLOBAL_HPP
-#define STOIRIDH_CONTROLS_TEMPLATES_GLOBAL_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_GLOBAL_HPP
+#define STOIRIDHCONTROLSTEMPLATES_GLOBAL_HPP
 
 #include <QtGlobal>
 
@@ -27,4 +27,4 @@
 #   define STOIRIDH_CONTROLS_TEMPLATES_API Q_DECL_IMPORT
 #endif
 
-#endif // STOIRIDH_CONTROLS_TEMPLATES_GLOBAL_HPP
+#endif // STOIRIDHCONTROLSTEMPLATES_GLOBAL_HPP

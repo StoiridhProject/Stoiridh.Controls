@@ -16,12 +16,12 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_TEMPLATES_PADDING_HPP
-#define STOIRIDH_CONTROLS_TEMPLATES_PADDING_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_PADDING_HPP
+#define STOIRIDHCONTROLSTEMPLATES_PADDING_HPP
 
-#include <StoiridhControlsTemplates/global.hpp>
+#include <StoiridhControlsTemplates/Public/global.hpp>
 
-#include <QtCore/QObject>
+#include <QObject>
 #include <QtQml/qqml.h>
 
 QT_BEGIN_NAMESPACE
@@ -95,4 +95,4 @@ STOIRIDH_CONTROLS_TEMPLATES_API QDebug operator<<(QDebug debug, const Padding *p
 QML_DECLARE_TYPE(StoiridhControlsTemplates::Padding)
 //--------------------------------------------------------------------------------------------------
 
-#endif // STOIRIDH_CONTROLS_TEMPLATES_PADDING_HPP
+#endif // STOIRIDHCONTROLSTEMPLATES_PADDING_HPP

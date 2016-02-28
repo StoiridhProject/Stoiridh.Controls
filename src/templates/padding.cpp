@@ -18,8 +18,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "padding.hpp"
 
-#include <QtCore/QMarginsF>
-#include <QtCore/QRectF>
+#include <QMarginsF>
+#include <QRectF>
 
 #ifndef QT_NO_DEBUG_STREAM
 #include <QtDebug>
@@ -33,7 +33,8 @@ namespace StoiridhControlsTemplates {
 /*! \class StoiridhControlsTemplates::Padding
     \inherits QtObject
     \inmodule StoiridhControlsTemplates
-    \ingroup stoiridh_controls_templates
+    \ingroup controls
+    \ingroup templates
     \since StoiridhControlsTemplates 1.0
 
     \brief The Padding class represents the space around content.

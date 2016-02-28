@@ -18,8 +18,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "plugin.hpp"
 
-#include <StoiridhControlsTemplates/control.hpp>
-#include <StoiridhControlsTemplates/padding.hpp>
+#include <StoiridhControlsTemplates/Control>
+#include <StoiridhControlsTemplates/Padding>
 
 #include <QtQml/qqml.h>
 

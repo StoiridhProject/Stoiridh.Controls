@@ -28,6 +28,18 @@ QtQuick.DynamicLibrary {
     installFileTagsFilter: ['dynamiclibrary']
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Dependencies                                                                              //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    Depends {
+        name: 'Qt'
+        submodules: [
+            'core-private',
+            'gui-private',
+            'qml-private',
+            'quick-private'
+        ]
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     //  Configuration                                                                             //
     ////////////////////////////////////////////////////////////////////////////////////////////////
     cpp.defines: [
@@ -35,7 +47,10 @@ QtQuick.DynamicLibrary {
         'QT_NO_CAST_FROM_ASCII',
         'QT_NO_CAST_TO_ASCII'
     ].concat(base)
-    cpp.includePaths: [FileInfo.joinPaths(product.buildDirectory, 'include')].concat(base)
+    cpp.includePaths: [
+        FileInfo.joinPaths(product.buildDirectory, 'include'),
+        product.sourceDirectory,
+    ].concat(base)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  Sources                                                                                   //
@@ -47,6 +62,27 @@ QtQuick.DynamicLibrary {
         "padding.cpp",
         "padding.hpp",
     ]
+
+    Group {
+        name: "Public Headers"
+        fileTags: ['public.hpp']
+        overrideTags: true
+        prefix: 'api/public/'
+        files: [
+            "Control",
+            "Padding",
+        ]
+    }
+
+    Group {
+        name: "Private Headers"
+        fileTags: ['private.hpp']
+        overrideTags: true
+        prefix: 'api/private/'
+        files: [
+            "control_p.hpp",
+        ]
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  Exports                                                                                   //
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,15 +100,25 @@ QtQuick.DynamicLibrary {
     //  Rules                                                                                     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
     Rule {
-        inputs: ['hpp']
+        inputs: ['hpp', 'public.hpp', 'private.hpp']
 
         Artifact {
             fileTags: ['stoiridh.controls.templates.hpp']
             filePath: {
+                var destinationPath = 'include/StoiridhControlsTemplates';
                 var relativeFilePath = FileInfo.relativePath(product.sourceDirectory,
                                                              input.filePath);
 
-                return FileInfo.joinPaths('include/StoiridhControlsTemplates', relativeFilePath);
+                if (input.fileTags.indexOf('hpp') !== -1) {
+                    destinationPath += '/Public';
+                } else if (input.fileTags.indexOf('private.hpp') !== -1) {
+                    destinationPath += '/Private';
+                    relativeFilePath = relativeFilePath.replace('api/private', '');
+                } else if (input.fileTags.indexOf('public.hpp') !== -1) {
+                    relativeFilePath = relativeFilePath.replace('api/public', '');
+                }
+
+                return FileInfo.joinPaths(destinationPath, relativeFilePath);
             }
         }
 

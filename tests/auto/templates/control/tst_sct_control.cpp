@@ -19,7 +19,7 @@
 #include <QtTest>
 #include <QtCore/QVariantList>
 
-#include <StoiridhControlsTemplates/control.hpp>
+#include <StoiridhControlsTemplates/Control>
 
 namespace SCT = StoiridhControlsTemplates;
 
