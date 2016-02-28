@@ -1,2 +1,2 @@
 module Stoiridh.Controls
-depends Stoiridh.Controls.Private
+depends Stoiridh.Controls.Private 1.0
