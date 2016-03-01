@@ -24,7 +24,7 @@ import Stoiridh.QtQuick
 QtQuick.DynamicLibrary {
     name: "Stoiridh.Controls.Templates"
     targetName: "StoiridhControlsTemplates"
-    type: ['stoiridh.controls.templates.hpp'].concat(base)
+    type: ['stoiridh.controls.templates.api'].concat(base)
     installFileTagsFilter: ['dynamiclibrary']
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,7 @@ QtQuick.DynamicLibrary {
         'QT_NO_CAST_FROM_ASCII',
         'QT_NO_CAST_TO_ASCII'
     ].concat(base)
+
     cpp.includePaths: [
         FileInfo.joinPaths(product.buildDirectory, 'include'),
         product.sourceDirectory,
@@ -64,8 +65,8 @@ QtQuick.DynamicLibrary {
     ]
 
     Group {
-        name: "Public Headers"
-        fileTags: ['public.hpp']
+        name: "[API] Public"
+        fileTags: ['stoiridh.controls.templates.api.public']
         overrideTags: true
         prefix: 'api/public/'
         files: [
@@ -75,9 +76,9 @@ QtQuick.DynamicLibrary {
     }
 
     Group {
-        name: "Private Headers"
-        fileTags: ['private.hpp']
-        overrideTags: true
+        name: "[API] Private"
+        fileTags: ['stoiridh.controls.templates.api.private']
+        overrideTags: false
         prefix: 'api/private/'
         files: [
             "control_p.hpp",
@@ -100,26 +101,44 @@ QtQuick.DynamicLibrary {
     //  Rules                                                                                     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
     Rule {
-        inputs: ['hpp', 'public.hpp', 'private.hpp']
+        inputs: [
+            'hpp',
+            'stoiridh.controls.templates.api.public',
+            'stoiridh.controls.templates.api.private'
+        ]
 
-        Artifact {
-            fileTags: ['stoiridh.controls.templates.hpp']
-            filePath: {
-                var destinationPath = 'include/StoiridhControlsTemplates';
-                var relativeFilePath = FileInfo.relativePath(product.sourceDirectory,
-                                                             input.filePath);
+        outputFileTags: ['stoiridh.controls.templates.api']
+        outputArtifacts: {
+            var fileTags = input.fileTags;
 
-                if (input.fileTags.indexOf('hpp') !== -1) {
-                    destinationPath += '/Public';
-                } else if (input.fileTags.indexOf('private.hpp') !== -1) {
-                    destinationPath += '/Private';
-                    relativeFilePath = relativeFilePath.replace('api/private', '');
-                } else if (input.fileTags.indexOf('public.hpp') !== -1) {
-                    relativeFilePath = relativeFilePath.replace('api/public', '');
-                }
+            if (fileTags.contains('unmocable'))
+                return [];
 
-                return FileInfo.joinPaths(destinationPath, relativeFilePath);
+            var artifacts = [];
+
+            var destinationPath = 'include/StoiridhControlsTemplates';
+            var relativeFilePath = FileInfo.relativePath(product.sourceDirectory, input.filePath);
+
+            if (fileTags.contains('stoiridh.controls.templates.api.public')) {
+                relativeFilePath = relativeFilePath.replace('api/public/', '');
+                artifacts.push({
+                    filePath: FileInfo.joinPaths(destinationPath, relativeFilePath),
+                    fileTags: ['stoiridh.controls.templates.api']
+                });
+            } else if (fileTags.contains('stoiridh.controls.templates.api.private')) {
+                relativeFilePath = relativeFilePath.replace('api/private/', '');
+                artifacts.push({
+                    filePath: FileInfo.joinPaths(destinationPath, 'Private', relativeFilePath),
+                    fileTags: ['stoiridh.controls.templates.api']
+                });
+            } else if (fileTags.contains('hpp')) {
+                artifacts.push({
+                    filePath: FileInfo.joinPaths(destinationPath, 'Public', relativeFilePath),
+                    fileTags: ['stoiridh.controls.templates.api']
+                });
             }
+
+            return artifacts;
         }
 
         prepare: {
