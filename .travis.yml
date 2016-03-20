@@ -7,8 +7,10 @@ dist: trusty
 compiler:
     - gcc
 
-addons.apt.packages:
-    - python3
+addons:
+    apt:
+        packages:
+            - python3
 
 before_install:
     - sudo add-apt-repository -y ppa:beineri/opt-qt56-trusty
