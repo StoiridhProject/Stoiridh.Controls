@@ -17,16 +17,10 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 import qbs 1.0
+import Stoiridh.QtQuick
 
-Project {
-    name: "Autotests"
-    condition: project.enableAutotests !== undefined ? project.enableAutotests : true
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  References                                                                                //
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    references: [
-        "controls",
-        "templates"
-    ]
+QtQuick.QmlImports {
+    name: "Stoiridh.Controls"
+    uri: "Stoiridh.Controls"
+    version: "1.0"
 }

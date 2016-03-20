@@ -20,6 +20,7 @@ import qbs 1.0
 
 Project {
     name: "Tests"
+    condition: project.enableTesting !== undefined ? project.enableTesting : true
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  References                                                                                //

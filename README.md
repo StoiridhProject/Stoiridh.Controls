@@ -1,17 +1,17 @@
 # Stòiridh.Controls
 
-Stòiridh.Controls is a QML module based on QtQuick.Controls so as to provide a set of controls for your QtQuick application.
+Stòiridh.Controls is a QML module that provides a set of UI controls for your QML application.
 
 # Requirements
 
 |           Name           | Minimum Version Required |
 |:------------------------:|:------------------------:|
 | [Qt](https://www.qt.io)  |          5.5.1           |
-| [Qbs](https://www.qt.io) |          1.4.0           |
+| [Qbs](https://www.qt.io) |          1.4.4           |
 
 # Licence
 
-The project is licenced under the GPL version 3. See [LICENCE.GPL3](https://github.com/viprip/Stoiridh-Qbs-Configuration/blob/master/LICENCE.GPL3) located at the root of the project for more information.
+The project is licenced under the GPL version 3. See [LICENCE.GPL3](https://github.com/viprip/Stoiridh.Controls/blob/master/LICENCE.GPL3) located at the root of the project for more information.
 
 > This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

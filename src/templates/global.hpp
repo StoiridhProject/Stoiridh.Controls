@@ -16,17 +16,15 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-import qbs 1.0
+#ifndef STOIRIDHCONTROLSTEMPLATES_GLOBAL_HPP
+#define STOIRIDHCONTROLSTEMPLATES_GLOBAL_HPP
 
-Project {
-    name: "Autotests"
-    condition: project.enableAutotests !== undefined ? project.enableAutotests : true
+#include <QtGlobal>
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  References                                                                                //
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    references: [
-        "controls",
-        "templates"
-    ]
-}
+#if defined(STOIRIDH_CONTROLS_TEMPLATES_LIB)
+#   define STOIRIDH_CONTROLS_TEMPLATES_API Q_DECL_EXPORT
+#else
+#   define STOIRIDH_CONTROLS_TEMPLATES_API Q_DECL_IMPORT
+#endif
+
+#endif // STOIRIDHCONTROLSTEMPLATES_GLOBAL_HPP

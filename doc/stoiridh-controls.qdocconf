@@ -11,34 +11,52 @@ outputencoding = UTF-8
 sourceencoding = UTF-8
 
 headerdirs += \
-    $PROJECT_DIR/src
+    $PROJECT_DIR/src/controls \
+    $PROJECT_DIR/src/templates
+
 sourcedirs += \
     $SOURCE_DIR \
-    $PROJECT_DIR/src
+    $PROJECT_DIR/src/controls \
+    $PROJECT_DIR/src/templates
 
 indexes += \
     $QDOC_INDEX_DIR/qtcore/qtcore.index \
     $QDOC_INDEX_DIR/qtgui/qtgui.index \
     $QDOC_INDEX_DIR/qtqml/qtqml.index \
-    $QDOC_INDEX_DIR/qtquick/qtquick.index \
-    $QDOC_INDEX_DIR/qtquickcontrols/qtquickcontrols.index \
+    $QDOC_INDEX_DIR/qtquick/qtquick.index
+
+defines += \
+    STOIRIDH_CONTROLS_TEMPLATES_API \
+    QT_NO_DEBUG_STREAM
 
 qhp.projects = StoiridhControls
 
+####################################################################################################
+##  Stoiridh.Controls project                                                                     ##
+####################################################################################################
 qhp.StoiridhControls.file          = stoiridhcontrols.qhp
 qhp.StoiridhControls.namespace     = uk.co.stoiridhproject.stoiridhcontrols.$PROJECT_VERSION_TAG
 qhp.StoiridhControls.virtualFolder = stoiridhcontrols
 qhp.StoiridhControls.indexTitle    = Stoiridh.Controls
 qhp.StoiridhControls.indexRoot     =
 
-qhp.StoiridhControls.subprojects = stoiridh_controls_types
+qhp.StoiridhControls.subprojects = qmltypes classes
 
-qhp.StoiridhControls.subprojects.stoiridh_controls_types.title      = Controls QML Types
-qhp.StoiridhControls.subprojects.stoiridh_controls_types.indexTitle = Stoiridh.Controls QML Types
-qhp.StoiridhControls.subprojects.stoiridh_controls_types.selectors  = group:stoiridh_controls
-qhp.StoiridhControls.subprojects.stoiridh_controls_types.sortPages  = true
+qhp.StoiridhControls.subprojects.qmltypes.title      = Controls QML Types
+qhp.StoiridhControls.subprojects.qmltypes.indexTitle = Stoiridh.Controls QML Types
+qhp.StoiridhControls.subprojects.qmltypes.selectors  = group:stoiridh_controls
+qhp.StoiridhControls.subprojects.qmltypes.sortPages  = true
+
+####################################################################################################
+##  Stoiridh.Controls.Templates project                                                           ##
+####################################################################################################
+qhp.StoiridhControls.subprojects.classes.title      = C++ Classes
+qhp.StoiridhControls.subprojects.classes.indexTitle = Stoiridh.Controls.Templates C++ Classes
+qhp.StoiridhControls.subprojects.classes.selectors  = class fake:headerfile
+qhp.StoiridhControls.subprojects.classes.sortPages  = true
 
 tagfile = stoiridhcontrols.tags
 
 navigation.landingpage  = "Stoiridh.Controls"
 navigation.qmltypespage = "Stoiridh.Controls QML Types"
+navigation.cppclassesspage = "Stoiridh.Controls.Templates C++ Classes"

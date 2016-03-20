@@ -16,17 +16,20 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-import qbs 1.0
+#include "plugin.hpp"
 
-Project {
-    name: "Autotests"
-    condition: project.enableAutotests !== undefined ? project.enableAutotests : true
+#include <StoiridhControlsTemplates/Control>
+#include <StoiridhControlsTemplates/Padding>
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //  References                                                                                //
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    references: [
-        "controls",
-        "templates"
-    ]
+#include <QtQml/qqml.h>
+
+namespace SCT = StoiridhControlsTemplates;
+
+void StoiridhControlsPrivatePlugin::registerTypes(const char *uri)
+{
+    // @uri Stoiridh.Controls.Private
+
+    // base
+    qmlRegisterType<SCT::Control>();
+    qmlRegisterType<SCT::Padding>();
 }

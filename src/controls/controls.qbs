@@ -16,11 +16,25 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "plugin.hpp"
+import qbs 1.0
+import Stoiridh.QtQuick
 
-#include <qqml.h>
+QtQuick.Plugin {
+    name: "Stoiridh.Controls.Private"
+    targetName: "StoiridhControlsPrivatePlugin"
+    uri: "Stoiridh.Controls.Private"
+    version: "1.0"
 
-void StoiridhControlsPlugin::registerTypes(const char *uri)
-{
-    // @uri Stoiridh.Controls
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Dependencies                                                                              //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    Depends { name: 'Stoiridh.Controls.Templates' }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  Sources                                                                                   //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    files: [
+        "plugin.cpp",
+        "plugin.hpp"
+    ]
 }

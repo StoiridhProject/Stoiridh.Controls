@@ -1,0 +1,3 @@
+module Stoiridh.Controls.Private
+plugin StoiridhControlsPrivatePlugin
+classname StoiridhControlsPrivatePlugin

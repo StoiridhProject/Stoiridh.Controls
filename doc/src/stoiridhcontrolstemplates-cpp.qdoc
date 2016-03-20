@@ -11,16 +11,34 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/*!
-  \qmlmodule Stoiridh.Controls 1.0
-  \title Stoiridh.Controls QML Types
-  \ingroup qmlmodules
-  \brief Provides a set of UI controls for your Qt Quick application.
+/*! \module Stoiridh.Controls.Templates
+    \title Stoiridh.Controls.Templates Module C++ classes
 
-  The QML types can be imported into your application using the following import statement in your
-  \c {.qml} file.
+    \brief The \l{Stoiridh.Controls.Templates} module provides templates to make and extend UI
+           controls in a QML application.
+*/
 
-  \code
-  import Stoiridh.Controls 1.0
-  \endcode
+/*! \page stoiridhcontrolstemplates-modules.html
+    \title Stoiridh.Controls.Templates C++ classes
+
+    \brief The StoiridhControlsTemplates module contains the control templates.
+
+    The StoiridhControlsTemplates module contains the templates for making new UI controls.
+
+    \section1 Namespaces
+
+    \annotatedlist stoiridhcontrolstemplates-namespaces
+
+    \section1 Classes
+
+    \section2 Stoiridh.Controls.Templates Module
+    \generatelist {classesbymodule StoiridhControlsTemplates}
+*/
+
+/*! \namespace StoiridhControlsTemplates
+    \inmodule StoiridhControlsTemplates
+    \ingroup stoiridhcontrolstemplates-namespaces
+
+    \brief The StoiridhControlsTemplates namespace contains classes to make new UI controls QML
+           types.
 */

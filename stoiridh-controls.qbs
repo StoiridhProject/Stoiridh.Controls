@@ -20,7 +20,7 @@ import qbs 1.0
 
 Project {
     name: "Stoiridh.Controls"
-    minimumQbsVersion: '1.4.0'
+    minimumQbsVersion: '1.4.4'
     qbsSearchPaths: ['qbs']
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
