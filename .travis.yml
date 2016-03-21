@@ -10,7 +10,10 @@ compiler:
 addons:
     apt:
         packages:
-            - python3
+            - mesa-common-dev
+            - libglu1-mesa-dev
+            - python3.5
+            - python3.5-dev
 
 before_install:
     - sudo add-apt-repository -y ppa:beineri/opt-qt56-trusty
