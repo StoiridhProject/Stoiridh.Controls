@@ -1,0 +1,40 @@
+language: cpp
+
+os: linux
+sudo: required
+dist: trusty
+
+compiler:
+    - gcc
+
+addons:
+    apt:
+        packages:
+            - mesa-common-dev
+            - libglu1-mesa-dev
+
+before_install:
+    - sudo add-apt-repository -y ppa:beineri/opt-qt56-trusty
+    - sudo add-apt-repository -y ppa:fkrull/deadsnakes
+    - sudo apt-get -qq update
+
+install:
+    - sudo apt-get install -y python3.5
+    - sudo apt-get install -y python3.5-dev
+    - sudo apt-get install -y qt-latest
+    - sudo apt-get install -y qtcreator-latest
+
+before_script:
+    - export PATH=/opt/qt56/bin:$PATH
+    - bash /opt/qt56/bin/qt56-env.sh
+    - qbs setup-toolchains --detect
+    - qbs setup-qt /opt/qt56/bin/qmake qt56
+    - qbs config defaultProfile qt56
+
+script:
+    - qbs clean --all-artifacts -d ../build-stoiridh-controls
+    - qbs build -d ../build-stoiridh-controls StoiridhUtils.Project.productName:StoiridhControls
+    - qbs install -d ../build-stoiridh-controls
+    # Stoiridh.Controls.Templates autotests
+    - qbs run -p "[Stoiridh.Controls.Templates] Control Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Stoiridh.Controls.Templates] Padding Autotest" -d ../build-stoiridh-controls
