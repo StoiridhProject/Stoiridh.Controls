@@ -114,31 +114,31 @@ QtQuick.DynamicLibrary {
             if (fileTags.contains('unmocable'))
                 return [];
 
-            var artifacts = [];
+            var artefacts = [];
 
             var destinationPath = 'include/StoiridhControlsTemplates';
             var relativeFilePath = FileInfo.relativePath(product.sourceDirectory, input.filePath);
 
             if (fileTags.contains('stoiridh.controls.templates.api.public')) {
                 relativeFilePath = relativeFilePath.replace('api/public/', '');
-                artifacts.push({
+                artefacts.push({
                     filePath: FileInfo.joinPaths(destinationPath, relativeFilePath),
                     fileTags: ['stoiridh.controls.templates.api']
                 });
             } else if (fileTags.contains('stoiridh.controls.templates.api.private')) {
                 relativeFilePath = relativeFilePath.replace('api/private/', '');
-                artifacts.push({
+                artefacts.push({
                     filePath: FileInfo.joinPaths(destinationPath, 'Private', relativeFilePath),
                     fileTags: ['stoiridh.controls.templates.api']
                 });
             } else if (fileTags.contains('hpp')) {
-                artifacts.push({
+                artefacts.push({
                     filePath: FileInfo.joinPaths(destinationPath, 'Public', relativeFilePath),
                     fileTags: ['stoiridh.controls.templates.api']
                 });
             }
 
-            return artifacts;
+            return artefacts;
         }
 
         prepare: {
