@@ -16,77 +16,78 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
-#define STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
+#include "abstractstyledispatcher.hpp"
 
-#include <StoiridhControlsTemplates/global.hpp>
-#include <StoiridhControlsTemplates/Padding>
+#include "core/exception/exceptionhandler.hpp"
 
-#include <QQuickItem>
+#include "api/internal/style/style.hpp"
+
+#include "api/private/style/style_p.hpp"
 
 //--------------------------------------------------------------------------------------------------
 namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
 
-class ControlPrivate;
-class Style;
 
-class STOIRIDH_CONTROLS_TEMPLATES_API Control : public QQuickItem
+/*! \class AbstractStyleDispatcher
+    \since StoiridhControlsTemplates 1.0
+    \ingroup style
+
+    \brief The AbstractStyleDispatcher class is a base class to dispatch a style to a control.
+
+    The class defines the methods shared by all style dispatchers. By inheriting this class, you
+    can create custom style dispatcher in order to modify the current style's state of a control.
+
+    AbstractStyleDispatcher provides a pure virtual method used by subclasses to dispatch a control:
+    dispatch(). The dispatch() method lets you to change the style's state of a control provided
+    that the control has the same style that the AbstractStyleDispatcher.
+
+    \note When a style is given to the AbstractStyleDispatcher class, it becomes responsible for the
+    life-cycle of the style.
+
+    \sa StyleDispatcher
+*/
+
+
+/*!
+    Constructs an abstract style dispatcher with the given \a style and \a parent.
+
+    \throw NullPointerException if \a style is null.
+*/
+AbstractStyleDispatcher::AbstractStyleDispatcher(Style *style, QObject *parent)
+    : QObject{parent}
+    , m_style{style}
 {
-    Q_OBJECT
-    Q_PROPERTY(qreal availableWidth READ availableWidth FINAL)
-    Q_PROPERTY(qreal availableHeight READ availableHeight FINAL)
-    Q_PROPERTY(qreal paddings READ paddings WRITE setPaddings NOTIFY paddingsChanged RESET resetPaddings FINAL)
-    Q_PROPERTY(StoiridhControlsTemplates::Padding *padding READ padding CONSTANT FINAL)
-    Q_PROPERTY(QQuickItem *background READ background WRITE setBackground NOTIFY backgroundChanged FINAL)
-    Q_PROPERTY(QQuickItem *content READ content WRITE setContent NOTIFY contentChanged FINAL)
+    ExceptionHandler::checkNullPointer(style, QStringLiteral("style"), QStringLiteral("Style *"));
 
-    Q_PRIVATE_PROPERTY(StoiridhControlsTemplates::Control::d_func(),
-                       StoiridhControlsTemplates::Style *style READ style
-                                                               WRITE setStyle
-                                                               NOTIFY styleChanged
-                                                               DESIGNABLE false FINAL)
+    m_style->setParent(this);
 
-public:
-    explicit Control(QQuickItem *parent = nullptr);
-    ~Control() override;
+    auto *const d_style = StylePrivate::get(m_style);
+    d_style->setStyleDispatcher(this);
+}
 
-    qreal availableWidth() const;
-    qreal availableHeight() const;
+/*!
+    Returns the style related to the dispatcher.
+*/
+Style *AbstractStyleDispatcher::style() const noexcept
+{
+    return m_style;
+}
 
-    qreal paddings() const;
-    void setPaddings(qreal paddings);
-    void resetPaddings();
+////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////   DOCUMENTATION    ////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    StoiridhControlsTemplates::Padding *padding() const;
+/*! \fn virtual AbstractStyleDispatcher::~AbstractStyleDispatcher() override = default
 
-    QQuickItem *background() const;
-    void setBackground(QQuickItem *background);
+    Destroys this abstract style dispatcher.
+*/
 
-    QQuickItem *content() const;
-    void setContent(QQuickItem *content);
+/*! \fn virtual void AbstractStyleDispatcher::dispatch(const Control *control) = 0
 
-signals:
-    void paddingsChanged();
-    void backgroundChanged();
-    void contentChanged();
-    void styleChanged();
-
-protected:
-    Control(ControlPrivate &dd, QQuickItem *parent);
-
-    void componentComplete() override;
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-
-private:
-    Q_DISABLE_COPY(Control)
-    Q_DECLARE_PRIVATE(Control)
-};
+    Dispatches the style to the \a control.
+*/
 
 //--------------------------------------------------------------------------------------------------
 } // namespace StoiridhControlsTemplates
 //--------------------------------------------------------------------------------------------------
-QML_DECLARE_TYPE(StoiridhControlsTemplates::Control)
-//--------------------------------------------------------------------------------------------------
-
-#endif // STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP

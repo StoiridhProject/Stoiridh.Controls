@@ -16,77 +16,70 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
-#define STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
-
-#include <StoiridhControlsTemplates/global.hpp>
-#include <StoiridhControlsTemplates/Padding>
-
-#include <QQuickItem>
+#include "nullpointerexception.hpp"
 
 //--------------------------------------------------------------------------------------------------
 namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
 
-class ControlPrivate;
-class Style;
 
-class STOIRIDH_CONTROLS_TEMPLATES_API Control : public QQuickItem
+/*! \class NullPointerException nullpointerexception.hpp <StoiridhControlsTemplates/Core/Exception/NullPointerException>
+    \since StoiridhControlsTemplates 1.0
+    \ingroup core
+    \ingroup exception
+
+    \brief The NullPointerException class represents an exception to handle a null object.
+
+    A NullPointerException exception is thrown when an application attempts to use a null pointer
+    where an object is required.
+*/
+
+
+/*!
+    Constructs a null pointer exception with the \a given message.
+*/
+NullPointerException::NullPointerException(const QString &name, const QString &type) noexcept
+    : Exception{}
 {
-    Q_OBJECT
-    Q_PROPERTY(qreal availableWidth READ availableWidth FINAL)
-    Q_PROPERTY(qreal availableHeight READ availableHeight FINAL)
-    Q_PROPERTY(qreal paddings READ paddings WRITE setPaddings NOTIFY paddingsChanged RESET resetPaddings FINAL)
-    Q_PROPERTY(StoiridhControlsTemplates::Padding *padding READ padding CONSTANT FINAL)
-    Q_PROPERTY(QQuickItem *background READ background WRITE setBackground NOTIFY backgroundChanged FINAL)
-    Q_PROPERTY(QQuickItem *content READ content WRITE setContent NOTIFY contentChanged FINAL)
+    if (!name.isEmpty())
+    {
+        auto message = QString::fromUtf8("%1 ").arg(name);
 
-    Q_PRIVATE_PROPERTY(StoiridhControlsTemplates::Control::d_func(),
-                       StoiridhControlsTemplates::Style *style READ style
-                                                               WRITE setStyle
-                                                               NOTIFY styleChanged
-                                                               DESIGNABLE false FINAL)
+        if (!type.isEmpty())
+        {
+            message.append(QStringLiteral("of type '%1' ").arg(type));
+        }
 
-public:
-    explicit Control(QQuickItem *parent = nullptr);
-    ~Control() override;
+        message.append(QStringLiteral("is null"));
 
-    qreal availableWidth() const;
-    qreal availableHeight() const;
+        setMessage(std::move(message));
+    }
+}
 
-    qreal paddings() const;
-    void setPaddings(qreal paddings);
-    void resetPaddings();
+/*!
+    Raises \a this instance of NullPointerException.
+*/
+void NullPointerException::raise() const
+{
+    throw (*this);
+}
 
-    StoiridhControlsTemplates::Padding *padding() const;
+/*!
+    Clones \a this instance of NullPointerException.
+*/
+NullPointerException *NullPointerException::clone() const
+{
+    return (new NullPointerException(*this));
+}
 
-    QQuickItem *background() const;
-    void setBackground(QQuickItem *background);
-
-    QQuickItem *content() const;
-    void setContent(QQuickItem *content);
-
-signals:
-    void paddingsChanged();
-    void backgroundChanged();
-    void contentChanged();
-    void styleChanged();
-
-protected:
-    Control(ControlPrivate &dd, QQuickItem *parent);
-
-    void componentComplete() override;
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-
-private:
-    Q_DISABLE_COPY(Control)
-    Q_DECLARE_PRIVATE(Control)
-};
+/*!
+    Returns an explanatory string.
+*/
+const char *NullPointerException::what() const noexcept
+{
+    return {"StoiridhControlsTemplates::NullPointerException"};
+}
 
 //--------------------------------------------------------------------------------------------------
 } // namespace StoiridhControlsTemplates
 //--------------------------------------------------------------------------------------------------
-QML_DECLARE_TYPE(StoiridhControlsTemplates::Control)
-//--------------------------------------------------------------------------------------------------
-
-#endif // STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP

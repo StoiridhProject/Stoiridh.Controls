@@ -16,77 +16,60 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
-#define STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLEFACTORY_HPP
+#define STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLEFACTORY_HPP
 
-#include <StoiridhControlsTemplates/global.hpp>
-#include <StoiridhControlsTemplates/Padding>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  --------------------------------------------------------------------------------------------  //
+//  /!\                                     W A R N I N G                                    /!\  //
+//  --------------------------------------------------------------------------------------------  //
+//                                                                                                //
+//  This internal header file is not part of StoiridhControlsTemplates API. It exists purely as   //
+//  an internal use and must not be used in external project(s).                                  //
+//                                                                                                //
+//  The content of this file may change from version to version without notice, or even be        //
+//  removed.                                                                                      //
+//                                                                                                //
+//  You are forewarned!                                                                           //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <QQuickItem>
+#include "control.hpp"
+#include "core/exception/exceptionhandler.hpp"
+
+#include "api/internal/global.hpp"
+#include "api/internal/style/abstractstyledispatcher.hpp"
+#include "api/internal/style/utility/stylefactoryhelper.hpp"
+
+#include <QtCore/QHash>
+#include <QtCore/QScopedPointer>
+#include <QtCore/QString>
+#include <QtQml/QQmlInfo>
+
+#include <type_traits>
 
 //--------------------------------------------------------------------------------------------------
 namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
 
-class ControlPrivate;
 class Style;
 
-class STOIRIDH_CONTROLS_TEMPLATES_API Control : public QQuickItem
+class SCT_INTERNAL_API StyleFactory final
 {
-    Q_OBJECT
-    Q_PROPERTY(qreal availableWidth READ availableWidth FINAL)
-    Q_PROPERTY(qreal availableHeight READ availableHeight FINAL)
-    Q_PROPERTY(qreal paddings READ paddings WRITE setPaddings NOTIFY paddingsChanged RESET resetPaddings FINAL)
-    Q_PROPERTY(StoiridhControlsTemplates::Padding *padding READ padding CONSTANT FINAL)
-    Q_PROPERTY(QQuickItem *background READ background WRITE setBackground NOTIFY backgroundChanged FINAL)
-    Q_PROPERTY(QQuickItem *content READ content WRITE setContent NOTIFY contentChanged FINAL)
-
-    Q_PRIVATE_PROPERTY(StoiridhControlsTemplates::Control::d_func(),
-                       StoiridhControlsTemplates::Style *style READ style
-                                                               WRITE setStyle
-                                                               NOTIFY styleChanged
-                                                               DESIGNABLE false FINAL)
-
 public:
-    explicit Control(QQuickItem *parent = nullptr);
-    ~Control() override;
+    template<typename T>
+    static Style *create(const Control *control) Q_REQUIRED_RESULT;
 
-    qreal availableWidth() const;
-    qreal availableHeight() const;
-
-    qreal paddings() const;
-    void setPaddings(qreal paddings);
-    void resetPaddings();
-
-    StoiridhControlsTemplates::Padding *padding() const;
-
-    QQuickItem *background() const;
-    void setBackground(QQuickItem *background);
-
-    QQuickItem *content() const;
-    void setContent(QQuickItem *content);
-
-signals:
-    void paddingsChanged();
-    void backgroundChanged();
-    void contentChanged();
-    void styleChanged();
-
-protected:
-    Control(ControlPrivate &dd, QQuickItem *parent);
-
-    void componentComplete() override;
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+    static void destroy();
 
 private:
-    Q_DISABLE_COPY(Control)
-    Q_DECLARE_PRIVATE(Control)
+    static QHash<QString, AbstractStyleDispatcher *> m_dispatchers;
 };
 
 //--------------------------------------------------------------------------------------------------
 } // namespace StoiridhControlsTemplates
 //--------------------------------------------------------------------------------------------------
-QML_DECLARE_TYPE(StoiridhControlsTemplates::Control)
+#include "stylefactory.inl"
 //--------------------------------------------------------------------------------------------------
 
-#endif // STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
+#endif // STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLEFACTORY_HPP

@@ -16,19 +16,44 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+#include <QtTest>
+#include <QtQuick/QQuickItem>
 
-#include <QQmlExtensionPlugin>
+#include <StoiridhControlsTemplates/Internal/style/stylepropertychanges.hpp>
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
+namespace SCT = StoiridhControlsTemplates;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  TestCase                                                                                      //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+class TestSCTStylePropertyChanges : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
 
-public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+private slots:
+    void target();
 };
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Tests                                                                                         //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void TestSCTStylePropertyChanges::target()
+{
+    SCT::StylePropertyChanges changes{};
+    QSignalSpy spy{&changes, SIGNAL(targetChanged())}; // pointer-to-member-function doesn't work
+                                                       // with this signal
 
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+    QVERIFY(spy.isValid());
+    QVERIFY(!changes.target());
+
+    QScopedPointer<QQuickItem> target{new QQuickItem{}};
+
+    changes.setTarget(target.data());
+
+    QCOMPARE(changes.target(), target.data());
+    QCOMPARE(spy.count(), 1);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Run                                                                                           //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QTEST_APPLESS_MAIN(TestSCTStylePropertyChanges)
+#include "tst_sct_stylepropertychanges.moc"

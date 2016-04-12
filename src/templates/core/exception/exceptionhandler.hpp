@@ -16,19 +16,29 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTIONHANDLER_HPP
+#define STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTIONHANDLER_HPP
 
-#include <QQmlExtensionPlugin>
+#include <StoiridhControlsTemplates/Public/global.hpp>
+#include <StoiridhControlsTemplates/Core/Exception/NullPointerException>
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
+#include <QObject>
+
+//--------------------------------------------------------------------------------------------------
+namespace StoiridhControlsTemplates {
+//--------------------------------------------------------------------------------------------------
+
+class STOIRIDH_CONTROLS_TEMPLATES_API ExceptionHandler
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
-
 public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+    template<typename T>
+    static void checkNullPointer(T pointer, const QString &name = {}, const QString &type = {});
 };
 
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+//--------------------------------------------------------------------------------------------------
+} // namespace StoiridhControlsTemplates
+//--------------------------------------------------------------------------------------------------
+#include "exceptionhandler.inl"
+//--------------------------------------------------------------------------------------------------
+
+#endif // STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTIONHANDLER_HPP

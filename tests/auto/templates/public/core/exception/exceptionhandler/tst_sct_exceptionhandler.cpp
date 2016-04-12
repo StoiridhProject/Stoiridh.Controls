@@ -16,19 +16,32 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+#include <QtTest>
 
-#include <QQmlExtensionPlugin>
+#include <StoiridhControlsTemplates/Core/Exception/ExceptionHandler>
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
+namespace SCT = StoiridhControlsTemplates;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  TestCase                                                                                      //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+class TestSCTExceptionHandler : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
 
-public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+private slots:
+    void checkNullPointer();
 };
-
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Tests                                                                                         //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void TestSCTExceptionHandler::checkNullPointer()
+{
+    QVERIFY_EXCEPTION_THROWN(SCT::ExceptionHandler::checkNullPointer(nullptr),
+                             SCT::NullPointerException);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Run                                                                                           //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QTEST_APPLESS_MAIN(TestSCTExceptionHandler)
+#include "tst_sct_exceptionhandler.moc"

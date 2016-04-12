@@ -16,19 +16,29 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_NULLPOINTEREXCEPTION_HPP
+#define STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_NULLPOINTEREXCEPTION_HPP
 
-#include <QQmlExtensionPlugin>
+#include <StoiridhControlsTemplates/Core/Exception/Exception>
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
+//--------------------------------------------------------------------------------------------------
+namespace StoiridhControlsTemplates {
+//--------------------------------------------------------------------------------------------------
+
+class STOIRIDH_CONTROLS_TEMPLATES_API NullPointerException final : public Exception
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
-
 public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+    explicit NullPointerException(const QString &name = {}, const QString &type = {}) noexcept;
+    ~NullPointerException() = default;
+
+    void raise() const override;
+    NullPointerException *clone() const override;
+
+    const char *what() const noexcept override;
 };
 
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+//--------------------------------------------------------------------------------------------------
+} // namespace StoiridhControlsTemplates
+//--------------------------------------------------------------------------------------------------
+
+#endif // STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_NULLPOINTEREXCEPTION_HPP

@@ -16,19 +16,51 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+#include "styledispatcher.hpp"
 
-#include <QQmlExtensionPlugin>
+#include "control.hpp"
+#include "core/exception/exceptionhandler.hpp"
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
+#include "api/internal/style/stylestatecontroller.hpp"
+
+#include "api/private/style/style_p.hpp"
+
+//--------------------------------------------------------------------------------------------------
+namespace StoiridhControlsTemplates {
+//--------------------------------------------------------------------------------------------------
+
+
+/*! \class StyleDispatcher
+    \since StoiridhControlsTemplates 1.0
+    \ingroup style
+
+    \brief The StyleDispatcher class dispatches a control.
+
+    The class dispatches a control by modifying the style's state of the control.
+
+    \sa Control
+*/
+
+
+/*!
+    Applies a new style's state to the \a control.
+
+    \throw NullPointerException if \a control is null.
+*/
+void StyleDispatcher::dispatch(const Control *control)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
+    ExceptionHandler::checkNullPointer(control,
+                                       QStringLiteral("control"),
+                                       QStringLiteral("const Control *"));
 
-public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
-};
+    auto *const d_style = StylePrivate::get(style());
 
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+    if (auto controller = d_style->stateController().lock())
+    {
+        controller->apply(control);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------
+} // namespace StoiridhControlsTemplates
+//--------------------------------------------------------------------------------------------------

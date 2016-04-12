@@ -45,3 +45,28 @@ script:
     - cmake -G"Unix Makefiles" ../Stoiridh.Controls
     - make
     - ctest -E "^Stoiridh.Controls$"
+    
+    - qbs clean --all-artifacts -d ../build-stoiridh-controls
+    - qbs build -d ../build-stoiridh-controls StoiridhUtils.Project.productName:StoiridhControls
+    - qbs install -d ../build-stoiridh-controls
+    # TODO Merge the following autotests with the command below when a new version of Stoiridh Qbs
+    #      Configuration (1.1.0) shall release.
+    # - qbs run -p "autotest-runner" -d ../build-stoiridh-controls
+
+    # Stoiridh.Controls.Templates autotests
+    - qbs run -p "[Core] Exception Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Core] ExceptionHandler Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Core] NullPointerException Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Stoiridh.Controls.Templates] Control Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Stoiridh.Controls.Templates] Padding Autotest" -d ../build-stoiridh-controls
+    # Stoiridh.Controls.Templates autotests (internal)
+    - qbs run -p "[Internal] AbstractStyleDispatcher Autotest" -d ../build-stoiridh-controls
+    # - qbs run -p "[Internal] Style Autotest" -d ../build-stoiridh-controls
+    # - qbs run -p "[Internal] StyleDispatcher Autotest" -d ../build-stoiridh-controls
+    # - qbs run -p "[Internal] StyleFactory Autotest" -d ../build-stoiridh-controls
+    # - qbs run -p "[Internal] StyleFactoryHelper Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Internal] StylePropertyChanges Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Internal] StylePropertyExpression Autotest" -d ../build-stoiridh-controls
+    # - qbs run -p "[Internal] StyleState Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Internal] StyleStateController Autotest" -d ../build-stoiridh-controls
+    - qbs run -p "[Internal] StyleStateOperation Autotest" -d ../build-stoiridh-controls
