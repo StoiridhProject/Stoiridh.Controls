@@ -16,16 +16,16 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDHCONTROLSTEMPLATES_CONTROL_P_HPP
-#define STOIRIDHCONTROLSTEMPLATES_CONTROL_P_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLEPROPERTYCHANGESPARSER_HPP
+#define STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLEPROPERTYCHANGESPARSER_HPP
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //  --------------------------------------------------------------------------------------------  //
 //  /!\                                     W A R N I N G                                    /!\  //
 //  --------------------------------------------------------------------------------------------  //
 //                                                                                                //
-//  This private header file is not part of StoiridhControlsTemplates API. It exists purely as    //
-//  an implementation detail for the class, Control.                                              //
+//  This internal header file is not part of StoiridhControlsTemplates API. It exists purely as   //
+//  an internal use and must not be used in external project(s).                                  //
 //                                                                                                //
 //  The content of this file may change from version to version without notice, or even be        //
 //  removed.                                                                                      //
@@ -34,92 +34,66 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "control.hpp"
-#include "padding.hpp"
+#include "api/internal/global.hpp"
 
-#include "api/internal/abstractcontrol.hpp"
+#include <QtCore/QList>
+#include <QtCore/QString>
 
-#include <QtCore/QPointer>
-
-#include <QtQuick/private/qquickitem_p.h>
+#include <QtQml/private/qqmlcustomparser_p.h>
 
 #include <type_traits>
 
 QT_BEGIN_NAMESPACE
-class QQuickItem;
+class QObject;
 QT_END_NAMESPACE
 
 //--------------------------------------------------------------------------------------------------
 namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
 
-class Style;
-
-class ControlPrivate : public QQuickItemPrivate, public AbstractControl
+class SCT_INTERNAL_API StylePropertyChangesParser final : public QQmlCustomParser
 {
-    Q_DECLARE_PUBLIC(Control)
+    using Unit    = QV4::CompiledData::Unit;
+    using Binding = QV4::CompiledData::Binding;
+    using Object  = QV4::CompiledData::Object;
 
 public:
-    ControlPrivate() = default;
-    virtual ~ControlPrivate() override = default;
+    explicit StylePropertyChangesParser() = default;
+    StylePropertyChangesParser(const StylePropertyChangesParser &rhs) = delete;
+    StylePropertyChangesParser(StylePropertyChangesParser &&rhs) = delete;
+    ~StylePropertyChangesParser() override = default;
 
-    static ControlPrivate *get(Control *control);
-    static const ControlPrivate *get(const Control *control);
+    void verifyBindings(const Unit *unit, const QList<const Binding *> &bindings) override;
+    void applyBindings(QObject *object, QQmlCompiledData *data,
+                       const QList<const Binding *> &bindings) override;
 
-    void init(QQuickItem *parent);
-    void accept(AbstractStyleDispatcher *dispatcher) override final;
+    StylePropertyChangesParser &operator=(const StylePropertyChangesParser &rhs) = delete;
+    StylePropertyChangesParser &operator=(StylePropertyChangesParser &&rhs) = delete;
 
-    StoiridhControlsTemplates::Style *style() const;
-    void setStyle(StoiridhControlsTemplates::Style *style);
-    void updateStyle();
-
-    QString styleState() const;
-
-    template<typename T>
-    void updateStyleState(T currentState);
-
-    virtual void initialiseDefaultStyleState();
-
-    void calculateBackgroundGeometry();
-    void calculateContentGeometry();
-
-    // members
-    qreal paddings{};
-    QPointer<Padding> padding{};
-    QPointer<QQuickItem> background{};
-    QPointer<QQuickItem> content{};
+protected:
+    template<typename Class>
+    void error(const Class *object, quint32 type);
 
 private:
-    QPointer<Style> m_style{};
-    QString m_styleState{};
+    static QString valueTypeError(Binding::ValueType type);
+
+    void verifyGroupPropertyBindings(const Unit *unit, const Binding *binding);
 };
 
 //--------------------------------------------------------------------------------------------------
 
-/*! \internal */
-inline ControlPrivate *ControlPrivate::get(Control *control)
+template<typename Class>
+void StylePropertyChangesParser::error(const Class *object, quint32 type)
 {
-    return control->d_func();
-}
+    static_assert(std::is_same<Class, Binding>::value || std::is_same<Class, Object>::value,
+                  "T must be either a Binding type or an Object type");
 
-/*! \internal */
-inline const ControlPrivate *ControlPrivate::get(const Control *control)
-{
-    return control->d_func();
-}
-
-template<typename T>
-void ControlPrivate::updateStyleState(T currentState)
-{
-    static_assert(std::is_enum<T>::value, "T is not an enumeration type.");
-
-    auto metaEnum = QMetaEnum::fromType<T>();
-    m_styleState = QString::fromUtf8(metaEnum.key(static_cast<int>(currentState)));
-    updateStyle();
+    auto valueType = static_cast<Binding::ValueType>(type);
+    QQmlCustomParser::error(object, valueTypeError(valueType));
 }
 
 //--------------------------------------------------------------------------------------------------
 } // namespace StoiridhControlsTemplates
 //--------------------------------------------------------------------------------------------------
 
-#endif // STOIRIDHCONTROLSTEMPLATES_CONTROL_P_HPP
+#endif // STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLEPROPERTYCHANGESPARSER_HPP

@@ -16,77 +16,45 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
-#define STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_BOOTSTRAP_QMLEXTENSIONPLUGIN_P_HPP
+#define STOIRIDHCONTROLSTEMPLATES_BOOTSTRAP_QMLEXTENSIONPLUGIN_P_HPP
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  --------------------------------------------------------------------------------------------  //
+//  /!\                                     W A R N I N G                                    /!\  //
+//  --------------------------------------------------------------------------------------------  //
+//                                                                                                //
+//  This private header file is not part of StoiridhControlsTemplates API. It exists purely as    //
+//  an entry point to expose some classes from the StoiridhControlsTemplates internal API into    //
+//  QML.                                                                                          //
+//                                                                                                //
+//  The content of this file may change from version to version without notice, or even be        //
+//  removed.                                                                                      //
+//                                                                                                //
+//  You are forewarned!                                                                           //
+//                                                                                                //
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <StoiridhControlsTemplates/Public/global.hpp>
-#include <StoiridhControlsTemplates/Padding>
 
-#include <QQuickItem>
+QT_BEGIN_NAMESPACE
+class QQmlEngine;
+QT_END_NAMESPACE
 
 //--------------------------------------------------------------------------------------------------
-namespace StoiridhControlsTemplates {
+namespace StoiridhControlsTemplates { namespace Bootstrap {
 //--------------------------------------------------------------------------------------------------
 
-class ControlPrivate;
-class Style;
-
-class STOIRIDH_CONTROLS_TEMPLATES_API Control : public QQuickItem
+class STOIRIDH_CONTROLS_TEMPLATES_API QmlExtensionPlugin final
 {
-    Q_OBJECT
-    Q_PROPERTY(qreal availableWidth READ availableWidth FINAL)
-    Q_PROPERTY(qreal availableHeight READ availableHeight FINAL)
-    Q_PROPERTY(qreal paddings READ paddings WRITE setPaddings NOTIFY paddingsChanged RESET resetPaddings FINAL)
-    Q_PROPERTY(StoiridhControlsTemplates::Padding *padding READ padding CONSTANT FINAL)
-    Q_PROPERTY(QQuickItem *background READ background WRITE setBackground NOTIFY backgroundChanged FINAL)
-    Q_PROPERTY(QQuickItem *content READ content WRITE setContent NOTIFY contentChanged FINAL)
-
-    Q_PRIVATE_PROPERTY(StoiridhControlsTemplates::Control::d_func(),
-                       StoiridhControlsTemplates::Style *style READ style
-                                                               WRITE setStyle
-                                                               NOTIFY styleChanged
-                                                               DESIGNABLE false FINAL)
-
 public:
-    explicit Control(QQuickItem *parent = nullptr);
-    ~Control() override;
-
-    qreal availableWidth() const;
-    qreal availableHeight() const;
-
-    qreal paddings() const;
-    void setPaddings(qreal paddings);
-    void resetPaddings();
-
-    StoiridhControlsTemplates::Padding *padding() const;
-
-    QQuickItem *background() const;
-    void setBackground(QQuickItem *background);
-
-    QQuickItem *content() const;
-    void setContent(QQuickItem *content);
-
-signals:
-    void paddingsChanged();
-    void backgroundChanged();
-    void contentChanged();
-    void styleChanged();
-
-protected:
-    Control(ControlPrivate &dd, QQuickItem *parent);
-
-    void componentComplete() override;
-    void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-
-private:
-    Q_DISABLE_COPY(Control)
-    Q_DECLARE_PRIVATE(Control)
+    static void init(const QQmlEngine *engine);
+    static void qmlRegisterInternalTypes(const char *uri);
 };
 
 //--------------------------------------------------------------------------------------------------
+} // namespace Bootstrap
 } // namespace StoiridhControlsTemplates
 //--------------------------------------------------------------------------------------------------
-QML_DECLARE_TYPE(StoiridhControlsTemplates::Control)
-//--------------------------------------------------------------------------------------------------
 
-#endif // STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
+#endif // STOIRIDHCONTROLSTEMPLATES_BOOTSTRAP_QMLEXTENSIONPLUGIN_P_HPP

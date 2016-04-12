@@ -16,33 +16,53 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#include "plugin.hpp"
 
-#include <StoiridhControlsTemplates/Control>
-#include <StoiridhControlsTemplates/Padding>
+//--------------------------------------------------------------------------------------------------
+namespace StoiridhControlsTemplates {
+//--------------------------------------------------------------------------------------------------
 
-#include <StoiridhControlsTemplates/Private/bootstrap/qmlextensionplugin_p.hpp>
-
-#include <QtQml/qqml.h>
-
-namespace SCT = StoiridhControlsTemplates;
-
-void StoiridhControlsPrivatePlugin::registerTypes(const char *uri)
+template<typename T>
+Style *StyleFactory::create(const Control *control)
 {
-    // @uri Stoiridh.Controls.Private
+    static_assert(std::is_base_of<AbstractStyleDispatcher, T>::value,
+                  "T is not a base of AbstractStyleDispatcher");
+    ExceptionHandler::checkNullPointer(control,
+                                       QStringLiteral("control"),
+                                       QStringLiteral("const Control *"));
 
-    // internal API
-    SCT::Bootstrap::QmlExtensionPlugin::qmlRegisterInternalTypes(uri);
+    QScopedPointer<StyleFactoryHelper> helper{new StyleFactoryHelper{control}};
+    AbstractStyleDispatcher *dispatcher{nullptr};
 
-    // controls
-    qmlRegisterType<SCT::Control>();
-    qmlRegisterType<SCT::Padding>();
+    const auto id = helper->controlId();
+
+    // a style dispatcher is already registered for a control type.
+    if (m_dispatchers.contains(id))
+    {
+        dispatcher = m_dispatchers.value(id);
+
+        helper->setStyleDispatcher(dispatcher);
+
+        if (!helper->mapping())
+        {
+            QString message = QString::fromUtf8("StyleFactory: %1\n%2\n    %3")
+                    .arg(QObject::tr("An error has occurred during mapping styles."))
+                    .arg(QObject::tr("Errors:"))
+                    .arg(helper->mappingErrors());
+
+            QtQml::qmlInfo(control) << message;
+        }
+    }
+    else
+    {
+        helper->createStyleStatesOperations();
+
+        dispatcher = new T{helper->style()};
+        m_dispatchers[id] = dispatcher;
+    }
+
+    return dispatcher->style();
 }
 
-void StoiridhControlsPrivatePlugin::initializeEngine(QQmlEngine *engine, const char *uri)
-{
-    QQmlExtensionPlugin::initializeEngine(engine, uri);
-
-    // internal API
-    SCT::Bootstrap::QmlExtensionPlugin::init(engine);
-}
+//--------------------------------------------------------------------------------------------------
+} // namespace StoiridhControlsTemplates
+//--------------------------------------------------------------------------------------------------

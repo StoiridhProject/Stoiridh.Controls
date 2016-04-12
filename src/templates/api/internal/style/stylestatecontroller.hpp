@@ -16,16 +16,16 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDHCONTROLSTEMPLATES_CONTROL_P_HPP
-#define STOIRIDHCONTROLSTEMPLATES_CONTROL_P_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLESTATECONTROLLER_HPP
+#define STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLESTATECONTROLLER_HPP
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //  --------------------------------------------------------------------------------------------  //
 //  /!\                                     W A R N I N G                                    /!\  //
 //  --------------------------------------------------------------------------------------------  //
 //                                                                                                //
-//  This private header file is not part of StoiridhControlsTemplates API. It exists purely as    //
-//  an implementation detail for the class, Control.                                              //
+//  This internal header file is not part of StoiridhControlsTemplates API. It exists purely as   //
+//  an internal use and must not be used in external project(s).                                  //
 //                                                                                                //
 //  The content of this file may change from version to version without notice, or even be        //
 //  removed.                                                                                      //
@@ -34,92 +34,54 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "control.hpp"
-#include "padding.hpp"
+#include "api/internal/global.hpp"
+#include "api/internal/style/stylestateoperation.hpp"
 
-#include "api/internal/abstractcontrol.hpp"
-
+#include <QtCore/QHash>
 #include <QtCore/QPointer>
-
-#include <QtQuick/private/qquickitem_p.h>
-
-#include <type_traits>
-
-QT_BEGIN_NAMESPACE
-class QQuickItem;
-QT_END_NAMESPACE
+#include <QtCore/QSharedPointer>
 
 //--------------------------------------------------------------------------------------------------
 namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
 
+class Control;
 class Style;
 
-class ControlPrivate : public QQuickItemPrivate, public AbstractControl
+class SCT_INTERNAL_API StyleStateController final
 {
-    Q_DECLARE_PUBLIC(Control)
+    using SSOHash = QHash<QString, QSharedPointer<StyleStateOperation>>;
 
 public:
-    ControlPrivate() = default;
-    virtual ~ControlPrivate() override = default;
+    using size_type = SSOHash::size_type;
 
-    static ControlPrivate *get(Control *control);
-    static const ControlPrivate *get(const Control *control);
+public:
+    explicit StyleStateController(Style *style);
+    StyleStateController(const StyleStateController &rhs) = delete;
+    StyleStateController(StyleStateController &&rhs) = delete;
+    ~StyleStateController() = default;
 
-    void init(QQuickItem *parent);
-    void accept(AbstractStyleDispatcher *dispatcher) override final;
+    bool isEmpty() const noexcept;
+    size_type count() const noexcept;
 
-    StoiridhControlsTemplates::Style *style() const;
-    void setStyle(StoiridhControlsTemplates::Style *style);
-    void updateStyle();
+    Style *style() const;
 
-    QString styleState() const;
+    void addStateOperation(QSharedPointer<StyleStateOperation> &&operation) noexcept;
+    QWeakPointer<StyleStateOperation> findStateOperation(const QString &name) const noexcept;
+    QWeakPointer<StyleStateOperation> defaultStateOperation() const noexcept;
 
-    template<typename T>
-    void updateStyleState(T currentState);
+    void apply(const Control *control);
 
-    virtual void initialiseDefaultStyleState();
-
-    void calculateBackgroundGeometry();
-    void calculateContentGeometry();
-
-    // members
-    qreal paddings{};
-    QPointer<Padding> padding{};
-    QPointer<QQuickItem> background{};
-    QPointer<QQuickItem> content{};
+    StyleStateController &operator=(const StyleStateController &rhs) = delete;
+    StyleStateController &operator=(StyleStateController &&rhs) = delete;
 
 private:
     QPointer<Style> m_style{};
-    QString m_styleState{};
+    QHash<QString, QSharedPointer<StyleStateOperation>> m_operations{};
 };
-
-//--------------------------------------------------------------------------------------------------
-
-/*! \internal */
-inline ControlPrivate *ControlPrivate::get(Control *control)
-{
-    return control->d_func();
-}
-
-/*! \internal */
-inline const ControlPrivate *ControlPrivate::get(const Control *control)
-{
-    return control->d_func();
-}
-
-template<typename T>
-void ControlPrivate::updateStyleState(T currentState)
-{
-    static_assert(std::is_enum<T>::value, "T is not an enumeration type.");
-
-    auto metaEnum = QMetaEnum::fromType<T>();
-    m_styleState = QString::fromUtf8(metaEnum.key(static_cast<int>(currentState)));
-    updateStyle();
-}
 
 //--------------------------------------------------------------------------------------------------
 } // namespace StoiridhControlsTemplates
 //--------------------------------------------------------------------------------------------------
 
-#endif // STOIRIDHCONTROLSTEMPLATES_CONTROL_P_HPP
+#endif // STOIRIDHCONTROLSTEMPLATES_INTERNAL_STYLE_STYLESTATECONTROLLER_HPP

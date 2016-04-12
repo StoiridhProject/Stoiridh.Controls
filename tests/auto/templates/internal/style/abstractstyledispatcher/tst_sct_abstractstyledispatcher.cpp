@@ -16,19 +16,37 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+#include <QtTest>
 
-#include <QQmlExtensionPlugin>
+#include <StoiridhControlsTemplates/Internal/style/abstractstyledispatcher.hpp>
+#include <StoiridhControlsTemplates/Internal/style/style.hpp>
+#include <StoiridhControlsTemplates/Internal/style/styledispatcher.hpp>
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
+namespace SCT = StoiridhControlsTemplates;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  TestCase                                                                                      //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+class TestSCTAbstractStyleDispatcher : public QObject
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
 
-public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+private slots:
+    void style();
 };
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Tests                                                                                         //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+void TestSCTAbstractStyleDispatcher::style()
+{
+    auto *const style = new SCT::Style{};
+    QScopedPointer<SCT::AbstractStyleDispatcher> dispatcher{new SCT::StyleDispatcher{style}};
 
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+    QVERIFY(dispatcher->style());
+    QCOMPARE(dispatcher->style(), style);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//  Run                                                                                           //
+////////////////////////////////////////////////////////////////////////////////////////////////////
+QTEST_APPLESS_MAIN(TestSCTAbstractStyleDispatcher)
+#include "tst_sct_abstractstyledispatcher.moc"

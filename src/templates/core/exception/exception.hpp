@@ -16,19 +16,39 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+#ifndef STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTION_HPP
+#define STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTION_HPP
 
-#include <QQmlExtensionPlugin>
+#include <StoiridhControlsTemplates/Public/global.hpp>
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
+#include <QException>
+#include <QString>
+
+//--------------------------------------------------------------------------------------------------
+namespace StoiridhControlsTemplates {
+//--------------------------------------------------------------------------------------------------
+
+class STOIRIDH_CONTROLS_TEMPLATES_API Exception : public QException
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
-
 public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
+    explicit Exception(const QString &message = {}) noexcept;
+    ~Exception() = default;
+
+    void raise() const override;
+    Exception *clone() const override;
+
+    const char *what() const noexcept override;
+    const QString &message() const noexcept;
+
+protected:
+    void setMessage(QString &&message);
+
+private:
+    QString m_message{};
 };
 
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+//--------------------------------------------------------------------------------------------------
+} // namespace StoiridhControlsTemplates
+//--------------------------------------------------------------------------------------------------
+
+#endif // STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTION_HPP

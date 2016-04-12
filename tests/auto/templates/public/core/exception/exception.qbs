@@ -16,19 +16,17 @@
 //            along with this program.  If not, see <http://www.gnu.org/licenses/>.               //
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-#ifndef STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
-#define STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+import qbs 1.0
 
-#include <QQmlExtensionPlugin>
+Project {
+    name: "Exception"
 
-class StoiridhControlsPrivatePlugin final : public QQmlExtensionPlugin
-{
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QQmlExtensionInterface/1.0")
-
-public:
-    void registerTypes(const char *uri) override;
-    void initializeEngine(QQmlEngine *engine, const char *uri) override;
-};
-
-#endif // STOIRIDH_CONTROLS_STOIRIDHCONTROLSPRIVATEPLUGIN_HPP
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //  References                                                                                //
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    references: [
+        "exception",
+        "exceptionhandler",
+        "nullpointerexception",
+    ]
+}
