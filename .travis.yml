@@ -29,6 +29,7 @@ install:
     - sudo apt-get install -y qtcreator-latest
 
 before_script:
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
     - export PATH=/opt/qt56/bin:$PATH
     - bash /opt/qt56/bin/qt56-env.sh
     - qbs setup-toolchains --detect
