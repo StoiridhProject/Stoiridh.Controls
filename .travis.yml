@@ -40,11 +40,9 @@ before_script:
     - cd ../build-stoiridh-controls
     - export PATH=$HOME/viprip/build-stoiridh-controls/install-root/bin:$PATH
     - qbs setup-toolchains --detect
-    - qbs setup-toolchains --type gcc /usr/bin/g++-4.9 gcc_49
+    - qbs config profiles.gcc.cpp.cCompilerName gcc-4.9
+    - qbs config profiles.gcc.cpp.cxxCompilerName g++-4.9
     - qbs setup-qt /opt/qt56/bin/qmake qt56
-    - qbs config profiles.gcc_49.cpp.cCompilerName gcc-4.9
-    - qbs config profiles.gcc_49.cpp.cxxCompilerName g++-4.9
-    - qbs config profiles.qt56.baseProfile gcc_49
     - qbs config defaultProfile qt56
 
 script:
