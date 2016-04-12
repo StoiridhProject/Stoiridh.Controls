@@ -22,4 +22,5 @@ import Stoiridh.Qt
 Qt.Documentation {
     name: "Stoiridh.Controls Documentation"
     baseName: "stoiridhcontrols"
+    condition: false
 }
