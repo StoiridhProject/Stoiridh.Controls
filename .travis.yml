@@ -33,9 +33,11 @@ before_script:
     - export PATH=/opt/qt56/bin:$PATH
     - bash /opt/qt56/bin/qt56-env.sh
     - qbs setup-toolchains --detect
-    - qbs setup-toolchains --type gcc /usr/bin/g++-4.9 g++4.9
+    - qbs setup-toolchains --type gcc /usr/bin/g++-4.9 gcc_49
     - qbs setup-qt /opt/qt56/bin/qmake qt56
-    - qbs config profiles.qt56.baseProfile g++4.9
+    - qbs config profiles.gcc_49.cpp.cCompilerName gcc-4.9
+    - qbs config profiles.gcc_49.cpp.cxxCompilerName g++-4.9
+    - qbs config profiles.qt56.baseProfile gcc_49
     - qbs config defaultProfile qt56
 
 script:
