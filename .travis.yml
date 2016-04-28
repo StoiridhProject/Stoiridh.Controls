@@ -9,32 +9,39 @@ compiler:
 
 addons:
     apt:
+        sources:
+            - deadsnakes
+            - ubuntu-toolchain-r-test
         packages:
+            - gcc-4.9
+            - g++-4.9
+            - python3.5
+            - python3.5-dev
             - mesa-common-dev
             - libglu1-mesa-dev
 
 before_install:
     - sudo add-apt-repository -y ppa:beineri/opt-qt56-trusty
-    - sudo add-apt-repository -y ppa:fkrull/deadsnakes
     - sudo apt-get -qq update
+    - wget https://cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.sh
+    - sudo mkdir -p /opt/cmake
 
 install:
-    - sudo apt-get install -y python3.5
-    - sudo apt-get install -y python3.5-dev
     - sudo apt-get install -y qt-latest
-    - sudo apt-get install -y qtcreator-latest
+    - sudo bash cmake-3.5.2-Linux-x86_64.sh --prefix=/opt/cmake --skip-license
 
 before_script:
-    - export PATH=/opt/qt56/bin:$PATH
+    - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+    # Qt 5.6
+    - export PATH=/opt/cmake/bin:/opt/qt56/bin:$PATH
     - bash /opt/qt56/bin/qt56-env.sh
-    - qbs setup-toolchains --detect
-    - qbs setup-qt /opt/qt56/bin/qmake qt56
-    - qbs config defaultProfile qt56
+    # Build directory
+    - mkdir build-stoiridh-controls
+    - cd build-stoiridh-controls
+    - export PATH=$HOME/build-stoiridh-controls/install-root/bin:$PATH
 
 script:
-    - qbs clean --all-artifacts -d ../build-stoiridh-controls
-    - qbs build -d ../build-stoiridh-controls StoiridhUtils.Project.productName:StoiridhControls
-    - qbs install -d ../build-stoiridh-controls
-    # Stoiridh.Controls.Templates autotests
-    - qbs run -p "[Stoiridh.Controls.Templates] Control Autotest" -d ../build-stoiridh-controls
-    - qbs run -p "[Stoiridh.Controls.Templates] Padding Autotest" -d ../build-stoiridh-controls
+    # CMake build
+    - cmake -G"Unix Makefiles" ../Stoiridh.Controls
+    - make
+    - ctest -E "^Stoiridh.Controls$"
