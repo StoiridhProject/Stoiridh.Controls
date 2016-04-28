@@ -19,7 +19,7 @@
 ##  Subdirectories                                                                                ##
 ####################################################################################################
 # Stòiridh.Controls QML Autotests
-add_subdirectory("controls")
+# add_subdirectory("controls")
 
 # Stòiridh.Controls.Templates Autotests
 add_subdirectory("templates/control")
