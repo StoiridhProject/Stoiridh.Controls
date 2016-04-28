@@ -36,9 +36,9 @@ before_script:
     - export PATH=/opt/cmake/bin:/opt/qt56/bin:$PATH
     - bash /opt/qt56/bin/qt56-env.sh
     # Build directory
-    - mkdir build-stoiridh-controls
-    - cd build-stoiridh-controls
-    - export PATH=$HOME/build-stoiridh-controls/install-root/bin:$PATH
+    - mkdir ../build-stoiridh-controls
+    - cd ../build-stoiridh-controls
+    - export PATH=$HOME/viprip/build-stoiridh-controls/install-root/bin:$PATH
 
 script:
     # CMake build
