@@ -2,15 +2,19 @@
 
 Stòiridh.Controls is a QML module that provides a set of UI controls for your QML application.
 
-# Build Status
+# Continuous Integration
 
 [BuildStatus]: <https://travis-ci.org/viprip/Stoiridh.Controls>
 [BuildStatusMaster]: <https://travis-ci.org/viprip/Stoiridh.Controls.svg?branch=master>
 
 
-|     Operating System    | Configuration | Build Status |
-|:-----------------------:|---------------|:------------:|
-| Ubuntu 14.04 LTS 64-bit | <p><li>Python 3.5</li><li>Qt 5.6.0</li><li>Qbs 1.4.5</li></p>  |  [![BuildStatusMaster][]][BuildStatus]  |
+|               |        Ubuntu 14.04 LTS 64-bit        |
+|:-------------:|:-------------------------------------:|
+| Qt            |                 5.6.0                 |
+| CMake         |                 3.5.2                 |
+| Python        |                 3.5.1                 |
+|///////////////|///////////////////////////////////////|
+| <b>Status</b> | [![BuildStatusMaster][]][BuildStatus] |
 
 # Requirements
 
@@ -19,6 +23,7 @@ Stòiridh.Controls is a QML module that provides a set of UI controls for your Q
 | [Qt](https://www.qt.io)          |          5.6.0           |
 | [Qbs](https://www.qt.io)         |          1.4.4           |
 | [Python](https://www.python.org) |          3.5.1           |
+| [CMake](https://cmake.org)       |          3.5.2           |
 
 # Licence
 
