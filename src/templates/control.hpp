@@ -19,7 +19,7 @@
 #ifndef STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
 #define STOIRIDHCONTROLSTEMPLATES_CONTROL_HPP
 
-#include <StoiridhControlsTemplates/Public/global.hpp>
+#include <StoiridhControlsTemplates/global.hpp>
 #include <StoiridhControlsTemplates/Padding>
 
 #include <QQuickItem>

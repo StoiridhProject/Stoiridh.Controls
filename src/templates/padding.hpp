@@ -19,7 +19,7 @@
 #ifndef STOIRIDHCONTROLSTEMPLATES_PADDING_HPP
 #define STOIRIDHCONTROLSTEMPLATES_PADDING_HPP
 
-#include <StoiridhControlsTemplates/Public/global.hpp>
+#include <StoiridhControlsTemplates/global.hpp>
 
 #include <QObject>
 #include <QtQml/qqml.h>
