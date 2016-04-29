@@ -16,25 +16,10 @@
 ##            along with this program.  If not, see <http://www.gnu.org/licenses/>.               ##
 ##                                                                                                ##
 ####################################################################################################
-##                                     - Stòiridh.Controls -                                      ##
+##  Subdirectories                                                                                ##
 ####################################################################################################
-set(STOIRIDH_PROJECT_NAME "StoiridhControls")
-
-####################################################################################################
-##  Configuration                                                                                 ##
-####################################################################################################
-stoiridh_include("Stoiridh.Qt.Qml.Module")
-
-####################################################################################################
-##  QML                                                                                           ##
-####################################################################################################
-set(QML_SOURCES
-    "${STOIRIDH_CONTROLS_QML_IMPORT_SOURCE_DIR}/qml/qmldir"
-)
-####################################################################################################
-##  Module                                                                                        ##
-####################################################################################################
-stoiridh_qt_qml_add_module(${STOIRIDH_PROJECT_NAME}
-    URI "Stoiridh.Controls"
-    SOURCES ${QML_SOURCES}
-    PATH_SUFFIXES "qml")
+add_subdirectory("abstractstyledispatcher")
+add_subdirectory("stylepropertychanges")
+add_subdirectory("stylepropertyexpression")
+add_subdirectory("stylestatecontroller")
+add_subdirectory("stylestateoperation")

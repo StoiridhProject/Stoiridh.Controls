@@ -10,6 +10,7 @@ Stòiridh.Controls is a QML module that provides a set of UI controls for your Q
 
 |               |        Ubuntu 14.04 LTS 64-bit        |
 |:-------------:|:-------------------------------------:|
+| GCC           |                 4.9.3                 |
 | Qt            |                 5.6.0                 |
 | CMake         |                 3.5.2                 |
 | Python        |                 3.5.1                 |

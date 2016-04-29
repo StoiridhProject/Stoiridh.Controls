@@ -16,25 +16,14 @@
 ##            along with this program.  If not, see <http://www.gnu.org/licenses/>.               ##
 ##                                                                                                ##
 ####################################################################################################
-##                                     - Stòiridh.Controls -                                      ##
+##  Subdirectories                                                                                ##
 ####################################################################################################
-set(STOIRIDH_PROJECT_NAME "StoiridhControls")
+add_subdirectory("public")
 
-####################################################################################################
-##  Configuration                                                                                 ##
-####################################################################################################
-stoiridh_include("Stoiridh.Qt.Qml.Module")
+# TODO Move to the public subdirectory
+add_subdirectory("control")
+add_subdirectory("padding")
 
-####################################################################################################
-##  QML                                                                                           ##
-####################################################################################################
-set(QML_SOURCES
-    "${STOIRIDH_CONTROLS_QML_IMPORT_SOURCE_DIR}/qml/qmldir"
-)
-####################################################################################################
-##  Module                                                                                        ##
-####################################################################################################
-stoiridh_qt_qml_add_module(${STOIRIDH_PROJECT_NAME}
-    URI "Stoiridh.Controls"
-    SOURCES ${QML_SOURCES}
-    PATH_SUFFIXES "qml")
+if(STOIRIDH_PROJECT_TESTING_ENABLE_INTERNAL)
+    add_subdirectory("internal")
+endif()

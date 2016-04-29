@@ -19,7 +19,7 @@
 #ifndef STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTIONHANDLER_HPP
 #define STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTIONHANDLER_HPP
 
-#include <StoiridhControlsTemplates/Public/global.hpp>
+#include <StoiridhControlsTemplates/global.hpp>
 #include <StoiridhControlsTemplates/Core/Exception/NullPointerException>
 
 #include <QObject>

@@ -16,25 +16,33 @@
 ##            along with this program.  If not, see <http://www.gnu.org/licenses/>.               ##
 ##                                                                                                ##
 ####################################################################################################
-##                                     - Stòiridh.Controls -                                      ##
+## [Autotest]       - Stòiridh.Controls.Templates <Style> StyleStateController -       [Autotest] ##
 ####################################################################################################
-set(STOIRIDH_PROJECT_NAME "StoiridhControls")
+set(STOIRIDH_PROJECT_NAME "tst_sct_ssc")
 
 ####################################################################################################
 ##  Configuration                                                                                 ##
 ####################################################################################################
-stoiridh_include("Stoiridh.Qt.Qml.Module")
+stoiridh_include("Stoiridh.Qt.Autotest")
+
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 ####################################################################################################
-##  QML                                                                                           ##
+##  Packages                                                                                      ##
 ####################################################################################################
-set(QML_SOURCES
-    "${STOIRIDH_CONTROLS_QML_IMPORT_SOURCE_DIR}/qml/qmldir"
+find_package(Qt5 5.6 CONFIG COMPONENTS Test REQUIRED)
+
+####################################################################################################
+##  Sources and Headers                                                                           ##
+####################################################################################################
+set(SOURCES
+    "tst_sct_stylestatecontroller.cpp"
 )
 ####################################################################################################
-##  Module                                                                                        ##
+##  Executable                                                                                    ##
 ####################################################################################################
-stoiridh_qt_qml_add_module(${STOIRIDH_PROJECT_NAME}
-    URI "Stoiridh.Controls"
-    SOURCES ${QML_SOURCES}
-    PATH_SUFFIXES "qml")
+stoiridh_qt_add_autotest(${STOIRIDH_PROJECT_NAME}
+    TEST_NAME "Stoiridh.Controls.Templates.Internal.Style.StyleStateController"
+    SOURCES   ${SOURCES}
+    DEPENDS   Qt5::Test StoiridhControls::Templates)

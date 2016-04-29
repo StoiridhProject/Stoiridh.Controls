@@ -19,7 +19,7 @@
 #ifndef STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTION_HPP
 #define STOIRIDHCONTROLSTEMPLATES_CORE_EXCEPTION_EXCEPTION_HPP
 
-#include <StoiridhControlsTemplates/Public/global.hpp>
+#include <StoiridhControlsTemplates/global.hpp>
 
 #include <QException>
 #include <QString>

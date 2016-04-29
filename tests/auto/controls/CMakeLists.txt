@@ -18,7 +18,7 @@
 ####################################################################################################
 ## [QML Autotest]                       - Stòiridh.Controls -                      [QML Autotest] ##
 ####################################################################################################
-set(STOIRIDH_PROJECT_NAME "SCControlsQmlAutotest")
+set(STOIRIDH_PROJECT_NAME "tst_sc_qml_controls")
 
 ####################################################################################################
 ##  Configuration                                                                                 ##
@@ -31,7 +31,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 ####################################################################################################
 ##  Packages                                                                                      ##
 ####################################################################################################
-find_package(Qt5 5.6 CONFIG COMPONENTS Core Gui Qml Quick QuickTest REQUIRED)
+find_package(Qt5 5.6 CONFIG COMPONENTS QuickTest REQUIRED)
 
 ####################################################################################################
 ##  Sources and Headers                                                                           ##
@@ -43,8 +43,7 @@ set(SOURCES
 ##  Executable                                                                                    ##
 ####################################################################################################
 stoiridh_qt_qml_add_autotest(${STOIRIDH_PROJECT_NAME}
-                             ALIAS     StoiridhControls::Testing::Auto::Qml::Controls
-                             TEST_NAME "Stoiridh.Controls"
-                             DATA_DIR  "data"
-                             SOURCES   ${SOURCES}
-                             DEPENDS   Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick Qt5::QuickTest)
+    TEST_NAME "Stoiridh.Controls"
+    DATA_DIR  "data"
+    SOURCES   ${SOURCES}
+    DEPENDS   Qt5::QuickTest)

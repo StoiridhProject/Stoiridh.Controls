@@ -23,7 +23,7 @@
 #include <StoiridhControlsTemplates/Control>
 #include <StoiridhControlsTemplates/Core/Exception/NullPointerException>
 
-#include <StoiridhControlsTemplates/Internal/style/stylepropertyexpression.hpp>
+#include <StoiridhControlsTemplates/0.1.0/internal/style/stylepropertyexpression.hpp>
 
 #include <stdexcept>
 

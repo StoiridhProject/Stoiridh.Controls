@@ -35,7 +35,7 @@
 //                                                                                                //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include <StoiridhControlsTemplates/Public/global.hpp>
+#include <StoiridhControlsTemplates/global.hpp>
 
 QT_BEGIN_NAMESPACE
 class QQmlEngine;

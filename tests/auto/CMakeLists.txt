@@ -22,5 +22,4 @@
 # add_subdirectory("controls")
 
 # Stòiridh.Controls.Templates Autotests
-add_subdirectory("templates/control")
-add_subdirectory("templates/padding")
+add_subdirectory("templates")
