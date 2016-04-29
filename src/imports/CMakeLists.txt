@@ -35,6 +35,6 @@ set(QML_SOURCES
 ##  Module                                                                                        ##
 ####################################################################################################
 stoiridh_qt_qml_add_module(${STOIRIDH_PROJECT_NAME}
-                           URI "Stoiridh.Controls"
-                           SOURCES ${QML_SOURCES}
-                           PATH_SUFFIXES "qml")
+    URI "Stoiridh.Controls"
+    SOURCES ${QML_SOURCES}
+    PATH_SUFFIXES "qml")

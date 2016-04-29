@@ -29,6 +29,7 @@ namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
 
 class ControlPrivate;
+class Style;
 
 class STOIRIDH_CONTROLS_TEMPLATES_API Control : public QQuickItem
 {
@@ -36,9 +37,15 @@ class STOIRIDH_CONTROLS_TEMPLATES_API Control : public QQuickItem
     Q_PROPERTY(qreal availableWidth READ availableWidth FINAL)
     Q_PROPERTY(qreal availableHeight READ availableHeight FINAL)
     Q_PROPERTY(qreal paddings READ paddings WRITE setPaddings NOTIFY paddingsChanged RESET resetPaddings FINAL)
-    Q_PROPERTY(Padding *padding READ padding CONSTANT FINAL)
+    Q_PROPERTY(StoiridhControlsTemplates::Padding *padding READ padding CONSTANT FINAL)
     Q_PROPERTY(QQuickItem *background READ background WRITE setBackground NOTIFY backgroundChanged FINAL)
     Q_PROPERTY(QQuickItem *content READ content WRITE setContent NOTIFY contentChanged FINAL)
+
+    Q_PRIVATE_PROPERTY(StoiridhControlsTemplates::Control::d_func(),
+                       StoiridhControlsTemplates::Style *style READ style
+                                                               WRITE setStyle
+                                                               NOTIFY styleChanged
+                                                               DESIGNABLE false FINAL)
 
 public:
     explicit Control(QQuickItem *parent = nullptr);
@@ -51,7 +58,7 @@ public:
     void setPaddings(qreal paddings);
     void resetPaddings();
 
-    Padding *padding() const;
+    StoiridhControlsTemplates::Padding *padding() const;
 
     QQuickItem *background() const;
     void setBackground(QQuickItem *background);
@@ -63,10 +70,12 @@ signals:
     void paddingsChanged();
     void backgroundChanged();
     void contentChanged();
+    void styleChanged();
 
 protected:
     Control(ControlPrivate &dd, QQuickItem *parent);
 
+    void componentComplete() override;
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
 
 private:

@@ -53,10 +53,23 @@ QtQuick.DynamicLibrary {
         product.sourceDirectory,
     ].concat(base)
 
+    Properties {
+        condition: project.enableInternalTesting
+        cpp.defines: [
+            'SCT_BUILD_INTERNAL_API',
+            'SCT_INTERNAL_LIB'
+        ].concat(outer)
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  Sources                                                                                   //
     ////////////////////////////////////////////////////////////////////////////////////////////////
     files: [
+        "core/exception/exception.cpp",
+        "core/exception/exception.hpp",
+        "core/exception/exceptionhandler.hpp",
+        "core/exception/exceptionhandler.inl",
+        "core/exception/nullpointerexception.cpp",
+        "core/exception/nullpointerexception.hpp",
         "control.cpp",
         "control.hpp",
         "global.hpp",
@@ -70,8 +83,45 @@ QtQuick.DynamicLibrary {
         overrideTags: true
         prefix: 'api/public/'
         files: [
+            "Core/Exception/Exception",
+            "Core/Exception/ExceptionHandler",
+            "Core/Exception/NullPointerException",
             "Control",
             "Padding",
+        ]
+    }
+
+    Group {
+        name: "[API] Internal"
+        fileTags: ['stoiridh.controls.templates.api.internal']
+        overrideTags: false
+        prefix: 'api/internal/'
+        files: [
+            "style/utility/stylefactoryhelper.cpp",
+            "style/utility/stylefactoryhelper.hpp",
+            "style/abstractstyledispatcher.cpp",
+            "style/abstractstyledispatcher.hpp",
+            "style/style.cpp",
+            "style/style.hpp",
+            "style/styledispatcher.cpp",
+            "style/styledispatcher.hpp",
+            "style/stylefactory.cpp",
+            "style/stylefactory.hpp",
+            "style/stylefactory.inl",
+            "style/stylepropertychanges.cpp",
+            "style/stylepropertychanges.hpp",
+            "style/stylepropertychangesparser.cpp",
+            "style/stylepropertychangesparser.hpp",
+            "style/stylepropertyexpression.cpp",
+            "style/stylepropertyexpression.hpp",
+            "style/stylestate.cpp",
+            "style/stylestate.hpp",
+            "style/stylestatecontroller.cpp",
+            "style/stylestatecontroller.hpp",
+            "style/stylestateoperation.cpp",
+            "style/stylestateoperation.hpp",
+            "abstractcontrol.hpp",
+            "global.hpp",
         ]
     }
 
@@ -81,6 +131,11 @@ QtQuick.DynamicLibrary {
         overrideTags: false
         prefix: 'api/private/'
         files: [
+            "bootstrap/qmlextensionplugin.cpp",
+            "bootstrap/qmlextensionplugin_p.hpp",
+            "style/style_p.hpp",
+            "style/stylepropertychanges_p.hpp",
+            "style/stylestate_p.hpp",
             "control_p.hpp",
         ]
     }
@@ -95,23 +150,45 @@ QtQuick.DynamicLibrary {
             'QT_NO_CAST_TO_ASCII'
         ]
 
-        cpp.includePaths: [].concat(FileInfo.joinPaths(product.buildDirectory, 'include'))
+        cpp.includePaths: {
+            var paths = [];
+            paths.push(FileInfo.joinPaths(product.buildDirectory, 'include'));
+
+            if (project.enableInternalTesting) {
+                paths.push('.');
+            }
+
+            return paths;
+        }
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  Rules                                                                                     //
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    FileTagger {
+        patterns: ["*.inl"]
+        fileTags: ["hpp"]
+    }
+
     Rule {
         inputs: [
             'hpp',
-            'stoiridh.controls.templates.api.public',
-            'stoiridh.controls.templates.api.private'
+            'stoiridh.controls.templates.api.internal',
+            'stoiridh.controls.templates.api.private',
+            'stoiridh.controls.templates.api.public'
         ]
 
         outputFileTags: ['stoiridh.controls.templates.api']
         outputArtifacts: {
             var fileTags = input.fileTags;
 
-            if (fileTags.contains('unmocable'))
+            var internalFileTag = 'stoiridh.controls.templates.api.internal';
+            var privateFileTag = 'stoiridh.controls.templates.api.private';
+            var publicFileTag = 'stoiridh.controls.templates.api.public';
+
+            if (fileTags.contains('unmocable') || fileTags.contains('cpp'))
+                return [];
+
+            if (!project.enableInternalTesting && fileTags.contains(internalFileTag))
                 return [];
 
             var artefacts = [];
@@ -119,13 +196,19 @@ QtQuick.DynamicLibrary {
             var destinationPath = 'include/StoiridhControlsTemplates';
             var relativeFilePath = FileInfo.relativePath(product.sourceDirectory, input.filePath);
 
-            if (fileTags.contains('stoiridh.controls.templates.api.public')) {
+            if (fileTags.contains(publicFileTag)) {
                 relativeFilePath = relativeFilePath.replace('api/public/', '');
                 artefacts.push({
                     filePath: FileInfo.joinPaths(destinationPath, relativeFilePath),
                     fileTags: ['stoiridh.controls.templates.api']
                 });
-            } else if (fileTags.contains('stoiridh.controls.templates.api.private')) {
+            } else if (fileTags.contains(internalFileTag)) {
+                relativeFilePath = relativeFilePath.replace('api/internal/', '');
+                artifacts.push({
+                    filePath: FileInfo.joinPaths(destinationPath, 'Internal', relativeFilePath),
+                    fileTags: ['stoiridh.controls.templates.api']
+                });
+            } else if (fileTags.contains(privateFileTag)) {
                 relativeFilePath = relativeFilePath.replace('api/private/', '');
                 artefacts.push({
                     filePath: FileInfo.joinPaths(destinationPath, 'Private', relativeFilePath),

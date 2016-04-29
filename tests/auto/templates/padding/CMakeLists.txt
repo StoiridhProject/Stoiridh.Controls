@@ -18,7 +18,7 @@
 ####################################################################################################
 ## [Autotest]                - Stòiridh.Controls.Templates <> Padding -                [Autotest] ##
 ####################################################################################################
-set(STOIRIDH_PROJECT_NAME "SCTPaddingAutotest")
+set(STOIRIDH_PROJECT_NAME "tst_sct_padding")
 
 ####################################################################################################
 ##  Configuration                                                                                 ##
@@ -31,7 +31,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 ####################################################################################################
 ##  Packages                                                                                      ##
 ####################################################################################################
-find_package(Qt5 5.6 CONFIG COMPONENTS Core Gui Qml Quick Test REQUIRED)
+find_package(Qt5 5.6 CONFIG COMPONENTS Test REQUIRED)
 
 ####################################################################################################
 ##  Sources and Headers                                                                           ##
@@ -43,8 +43,6 @@ set(SOURCES
 ##  Executable                                                                                    ##
 ####################################################################################################
 stoiridh_qt_add_autotest(${STOIRIDH_PROJECT_NAME}
-                         ALIAS     StoiridhControls::Templates::Testing::Auto::Padding
-                         TEST_NAME "Stoiridh.Controls.Templates.Padding"
-                         SOURCES   ${SOURCES}
-                         DEPENDS   Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick Qt5::Test
-                                   StoiridhControls::Templates)
+    TEST_NAME "Stoiridh.Controls.Templates.Public.Padding"
+    SOURCES   ${SOURCES}
+    DEPENDS   Qt5::Test StoiridhControls::Templates)

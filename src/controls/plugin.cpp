@@ -21,6 +21,8 @@
 #include <StoiridhControlsTemplates/Control>
 #include <StoiridhControlsTemplates/Padding>
 
+#include <StoiridhControlsTemplates/0.1.0/private/bootstrap/qmlextensionplugin_p.hpp>
+
 #include <QtQml/qqml.h>
 
 namespace SCT = StoiridhControlsTemplates;
@@ -29,7 +31,18 @@ void StoiridhControlsPrivatePlugin::registerTypes(const char *uri)
 {
     // @uri Stoiridh.Controls.Private
 
-    // base
+    // internal API
+    SCT::Bootstrap::QmlExtensionPlugin::qmlRegisterInternalTypes(uri);
+
+    // controls
     qmlRegisterType<SCT::Control>();
     qmlRegisterType<SCT::Padding>();
+}
+
+void StoiridhControlsPrivatePlugin::initializeEngine(QQmlEngine *engine, const char *uri)
+{
+    QQmlExtensionPlugin::initializeEngine(engine, uri);
+
+    // internal API
+    SCT::Bootstrap::QmlExtensionPlugin::init(engine);
 }

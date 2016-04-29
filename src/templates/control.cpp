@@ -18,26 +18,30 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "control.hpp"
 
+#include "api/internal/style/style.hpp"
+#include "api/internal/style/styledispatcher.hpp"
+#include "api/internal/style/stylefactory.hpp"
+
 #include "api/private/control_p.hpp"
+#include "api/private/style/style_p.hpp"
+
+#include <QtQuick/QQuickItem>
 
 //--------------------------------------------------------------------------------------------------
 namespace StoiridhControlsTemplates {
 //--------------------------------------------------------------------------------------------------
 
 
-/*! \class StoiridhControlsTemplates::Control
-    \inherits QQuickItem
-    \inmodule StoiridhControlsTemplates
-    \ingroup controls
+/*! \class Control control.hpp <StoiridhControlsTemplates/Control>
     \ingroup templates
     \since StoiridhControlsTemplates 1.0
 
-    \brief The Control class provides a base class for UI controls.
+    \brief The Control class provides a base class for all UI controls.
 */
 
 
 /*!
-    Constructs a Control with an optional \a parent as parent.
+    Constructs a control with the given \a parent.
 */
 Control::Control(QQuickItem *parent)
     : Control{*(new ControlPrivate{}), parent}
@@ -45,14 +49,11 @@ Control::Control(QQuickItem *parent)
 
 }
 
-/*!
-    \internal
-*/
+/*! \internal */
 Control::Control(ControlPrivate &dd, QQuickItem *parent)
     : QQuickItem{dd, parent}
 {
-    Q_D(Control);
-    d->init(this);
+    dd.init(this);
 }
 
 /*!
@@ -89,7 +90,7 @@ qreal Control::availableHeight() const
 
     This property holds the global paddings of the control.
 
-    \sa {Control::}{padding()}
+    \sa padding()
 */
 qreal Control::paddings() const
 {
@@ -125,9 +126,9 @@ void Control::resetPaddings()
 
     This property holds the padding of the control.
 
-    \sa {Control::}{paddings()}
+    \sa paddings()
 */
-Padding *Control::padding() const
+StoiridhControlsTemplates::Padding *Control::padding() const
 {
     Q_D(const Control);
     return d->padding;
@@ -194,9 +195,29 @@ void Control::setContent(QQuickItem *content)
     }
 }
 
-/*!
-    \reimp
-*/
+/*! \reimp */
+void Control::componentComplete()
+{
+    Q_D(Control);
+
+    QQuickItem::componentComplete();
+
+    // calculate both background and content geometries in order to avoid a null geometry when the
+    // component has completed construction.
+    d->calculateBackgroundGeometry();
+    d->calculateContentGeometry();
+
+    if (d->style())
+    {
+        // the StyleFactory can only operate on the style created from the QML engine when the
+        // control has completed construction.
+        auto *const style = StyleFactory::create<StyleDispatcher>(this);
+        d->setStyle(style);
+        d->initialiseDefaultStyleState();
+    }
+}
+
+/*! \reimp */
 void Control::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry)
 {
     QQuickItem::geometryChanged(newGeometry, oldGeometry);
@@ -214,19 +235,56 @@ void Control::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeomet
     \internal
 */
 
-ControlPrivate::ControlPrivate()
-{
-
-}
-
-ControlPrivate::~ControlPrivate()
-{
-
-}
-
 void ControlPrivate::init(QQuickItem *parent)
 {
     padding = new Padding{parent};
+}
+
+void ControlPrivate::accept(AbstractStyleDispatcher *dispatcher)
+{
+    Q_Q(Control);
+    dispatcher->dispatch(q);
+}
+
+/*! \property StoiridhControlsTemplates::Control::style
+
+    This property holds the style of the control.
+*/
+StoiridhControlsTemplates::Style *ControlPrivate::style() const
+{
+    return m_style;
+}
+
+void ControlPrivate::setStyle(StoiridhControlsTemplates::Style *style)
+{
+    if (m_style != style)
+    {
+        Q_Q(Control);
+        m_style = style;
+
+        if (q->isComponentComplete())
+        {
+            updateStyle();
+        }
+
+        emit q->styleChanged();
+    }
+}
+
+void ControlPrivate::updateStyle()
+{
+    auto *const d_style = StylePrivate::get(style());
+    accept(d_style->styleDispatcher());
+}
+
+QString ControlPrivate::styleState() const
+{
+    return m_styleState;
+}
+
+void ControlPrivate::initialiseDefaultStyleState()
+{
+    // a control is an abstract concept so it has not a default style's state.
 }
 
 void ControlPrivate::calculateBackgroundGeometry()
@@ -309,3 +367,4 @@ void ControlPrivate::calculateContentGeometry()
 //--------------------------------------------------------------------------------------------------
 } // namespace StoiridhControlsTemplates
 //--------------------------------------------------------------------------------------------------
+#include <moc_control.cpp>

@@ -50,10 +50,9 @@ set(QML_SOURCES
 ##  Library                                                                                       ##
 ####################################################################################################
 stoiridh_qt_qml_add_extension_plugin(${STOIRIDH_PROJECT_NAME}
-                                     URI               "Stoiridh.Controls.Private"
-                                     ALIAS             StoiridhControls::Private
-                                     SOURCES           ${SOURCES}
-                                     QML_SOURCES       ${QML_SOURCES}
-                                     QML_PATH_SUFFIXES "qml"
-                                     DEPENDS           Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick
-                                                       StoiridhControls::Templates)
+    URI               "Stoiridh.Controls.Private"
+    ALIAS             StoiridhControls::Private
+    SOURCES           ${SOURCES}
+    QML_SOURCES       ${QML_SOURCES}
+    QML_PATH_SUFFIXES "qml"
+    DEPENDS           Qt5::Core Qt5::Gui Qt5::Qml Qt5::Quick StoiridhControls::Templates)
