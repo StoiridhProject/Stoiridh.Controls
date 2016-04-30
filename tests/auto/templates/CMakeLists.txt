@@ -20,10 +20,6 @@
 ####################################################################################################
 add_subdirectory("public")
 
-# TODO Move to the public subdirectory
-add_subdirectory("control")
-add_subdirectory("padding")
-
 if(STOIRIDH_PROJECT_TESTING_ENABLE_INTERNAL)
     add_subdirectory("internal")
 endif()
