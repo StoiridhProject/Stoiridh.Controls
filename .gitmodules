@@ -1,5 +1,5 @@
-[submodule "qbs"]
-	path = qbs
+[submodule "config/qbs"]
+	path = config/qbs
 	url = https://github.com/viprip/Stoiridh-Qbs-Configuration.git
 [submodule "doc/global"]
 	path = doc/global
