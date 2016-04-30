@@ -19,3 +19,6 @@
 ##  Subdirectories                                                                                ##
 ####################################################################################################
 add_subdirectory("core")
+
+add_subdirectory("control")
+add_subdirectory("padding")

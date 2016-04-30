@@ -88,6 +88,7 @@ QtQuick.DynamicLibrary {
             "Core/Exception/NullPointerException",
             "Control",
             "Padding",
+            "global.hpp"
         ]
     }
 
