@@ -21,7 +21,7 @@ import qbs 1.0
 Project {
     name: "Stoiridh.Controls"
     minimumQbsVersion: '1.4.4'
-    qbsSearchPaths: ['qbs']
+    qbsSearchPaths: ['config/qbs']
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //  References                                                                                //
