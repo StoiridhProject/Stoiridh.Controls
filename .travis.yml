@@ -32,6 +32,10 @@ install:
 
 before_script:
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
+    # GUI testing
+    - export DISPLAY=:99.0
+    - bash -e /etc/init.d/xvfb start
+    - sleep 3
     # Qt 5.6
     - export PATH=/opt/cmake/bin:/opt/qt56/bin:$PATH
     - bash /opt/qt56/bin/qt56-env.sh
