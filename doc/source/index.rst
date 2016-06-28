@@ -41,6 +41,8 @@ All Classes are declared under the ``StoiridhControlsTemplates`` namespace.
 .. toctree::
    :maxdepth: 1
 
+   api
+
 Indices and tables
 ==================
 
