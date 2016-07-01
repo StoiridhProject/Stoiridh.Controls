@@ -21,7 +21,7 @@
 #include <StoiridhControlsTemplates/Control>
 #include <StoiridhControlsTemplates/Padding>
 
-#include <StoiridhControlsTemplates/0.1.0/private/bootstrap/qmlextensionplugin_p.hpp>
+#include <StoiridhControlsTemplates/private/bootstrap/qmlextensionplugin_p.hpp>
 
 #include <QtQml/qqml.h>
 

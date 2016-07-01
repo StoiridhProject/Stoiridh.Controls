@@ -19,7 +19,7 @@
 #include <QtTest>
 #include <QtQuick/QQuickItem>
 
-#include <StoiridhControlsTemplates/0.1.0/internal/style/stylepropertychanges.hpp>
+#include <StoiridhControlsTemplates/internal/style/stylepropertychanges.hpp>
 
 namespace SCT = StoiridhControlsTemplates;
 

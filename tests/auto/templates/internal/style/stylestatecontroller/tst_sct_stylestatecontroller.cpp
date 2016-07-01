@@ -24,8 +24,8 @@
 #include <StoiridhControlsTemplates/Control>
 #include <StoiridhControlsTemplates/Core/Exception/NullPointerException>
 
-#include <StoiridhControlsTemplates/0.1.0/internal/style/style.hpp>
-#include <StoiridhControlsTemplates/0.1.0/internal/style/stylestatecontroller.hpp>
+#include <StoiridhControlsTemplates/internal/style/style.hpp>
+#include <StoiridhControlsTemplates/internal/style/stylestatecontroller.hpp>
 
 namespace SCT = StoiridhControlsTemplates;
 
