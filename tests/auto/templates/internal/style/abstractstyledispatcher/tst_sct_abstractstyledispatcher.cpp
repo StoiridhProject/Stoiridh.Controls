@@ -18,9 +18,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 #include <QtTest>
 
-#include <StoiridhControlsTemplates/0.1.0/internal/style/abstractstyledispatcher.hpp>
-#include <StoiridhControlsTemplates/0.1.0/internal/style/style.hpp>
-#include <StoiridhControlsTemplates/0.1.0/internal/style/styledispatcher.hpp>
+#include <StoiridhControlsTemplates/internal/style/abstractstyledispatcher.hpp>
+#include <StoiridhControlsTemplates/internal/style/style.hpp>
+#include <StoiridhControlsTemplates/internal/style/styledispatcher.hpp>
 
 namespace SCT = StoiridhControlsTemplates;
 

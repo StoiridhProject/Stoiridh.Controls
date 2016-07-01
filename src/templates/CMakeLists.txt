@@ -140,6 +140,14 @@ target_compile_definitions(${STOIRIDH_PROJECT_NAME}
 if(STOIRIDH_PROJECT_TESTING_ENABLE_INTERNAL)
     target_compile_definitions(${STOIRIDH_PROJECT_NAME}
         PRIVATE SCT_BUILD_INTERNAL_API SCT_INTERNAL_LIB)
+
+    # temporary fix: include directory for the access to the internal and private API in order to
+    #                build the projects.
+    string(CONCAT PRIVATE_INCLUDE_DIR "${STOIRIDH_INSTALL_ROOT}/${STOIRIDH_INSTALL_INCLUDE_DIR}"
+                                      "/${STOIRIDH_PROJECT_NAME}/${PROJECT_VERSION}")
+    target_include_directories(${STOIRIDH_PROJECT_NAME}
+        INTERFACE $<BUILD_INTERFACE:${PRIVATE_INCLUDE_DIR}>)
+    unset(PRIVATE_INCLUDE_DIR)
 endif()
 
 target_include_directories(${STOIRIDH_PROJECT_NAME}

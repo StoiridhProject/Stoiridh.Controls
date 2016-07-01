@@ -1,1 +1,1 @@
-#include "StoiridhControlsTemplates/0.1.0/public/global.hpp"
+#include "StoiridhControlsTemplates/0.1.0/StoiridhControlsTemplates/public/global.hpp"
