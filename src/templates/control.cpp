@@ -273,8 +273,11 @@ void ControlPrivate::setStyle(StoiridhControlsTemplates::Style *style)
 
 void ControlPrivate::updateStyle()
 {
-    auto *const d_style = StylePrivate::get(style());
-    accept(d_style->styleDispatcher());
+    if (auto *const s = style())
+    {
+        auto *const d_style = StylePrivate::get(s);
+        accept(d_style->styleDispatcher());
+    }
 }
 
 QString ControlPrivate::styleState() const
